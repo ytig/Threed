@@ -54,7 +54,7 @@ class MainCamera extends Camera {
 
     public MainCamera(int width, int height, float verticalAngle) {
         super(width, height, verticalAngle);
-        mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
     }
 
     @Override
