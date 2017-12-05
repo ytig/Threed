@@ -555,7 +555,7 @@ public class Camera {
             float d = (surface.a.distanceTo(mLens.mPoint) + surface.b.distanceTo(mLens.mPoint) + surface.c.distanceTo(mLens.mPoint)) / 3;
             if (maxX - minX > maxY - minY) {
                 int x, y, startX, endX, startY, endY;
-                float k, b, y1, y2, y3;
+                double k, b, y1, y2, y3;
                 k = (_p2.y - _p1.y) / (_p2.x - _p1.x);
                 b = (_p1.y - k * _p1.x + _p2.y - k * _p2.x) / 2;
                 if (minX <= 0) startX = 0;
@@ -564,21 +564,21 @@ public class Camera {
                 else endX = (int) (maxX + 1);
                 for (x = startX; x <= endX; x++) { //过量遍历
                     if (k > 0) {
-                        y1 = k * (x - 0.5f) + b;
-                        y2 = k * (x + 0.5f) + b;
-                        y3 = y2 + 0.5f; //开区间排点
+                        y1 = k * (x - 0.5) + b;
+                        y2 = k * (x + 0.5) + b;
+                        y3 = y2 + 0.5; //开区间排点
                     } else {
-                        y1 = k * (x + 0.5f) + b;
-                        y2 = k * (x - 0.5f) + b;
+                        y1 = k * (x + 0.5) + b;
+                        y2 = k * (x - 0.5) + b;
                         y3 = -1;
                     }
                     if (y1 <= maxY && y2 >= minY) {
                         if (y1 < minY) y1 = minY;
                         if (y2 > maxY) y2 = maxY;
-                        if (y1 < -0.5f) startY = 0;
-                        else startY = (int) (y1 + 0.5f);
-                        if (y2 >= mHeight - 1 + 0.5f) endY = mHeight - 1;
-                        else endY = (int) (y2 + 0.5f);
+                        if (y1 < -0.5) startY = 0;
+                        else startY = (int) (y1 + 0.5);
+                        if (y2 >= mHeight - 1 + 0.5) endY = mHeight - 1;
+                        else endY = (int) (y2 + 0.5);
                         for (y = startY; y <= endY; y++) {
                             if (y != y3) {
                                 if (mDistance[x + y * mWidth] >= d) {
@@ -591,7 +591,7 @@ public class Camera {
                 }
             } else {
                 int x, y, startX, endX, startY, endY;
-                float k, b, x1, x2, x3;
+                double k, b, x1, x2, x3;
                 k = (_p2.x - _p1.x) / (_p2.y - _p1.y);
                 b = (_p1.x - k * _p1.y + _p2.x - k * _p2.y) / 2;
                 if (minY <= 0) startY = 0;
@@ -600,21 +600,21 @@ public class Camera {
                 else endY = (int) (maxY + 1);
                 for (y = startY; y <= endY; y++) { //过量遍历
                     if (k > 0) {
-                        x1 = k * (y - 0.5f) + b;
-                        x2 = k * (y + 0.5f) + b;
-                        x3 = x2 + 0.5f; //开区间排点
+                        x1 = k * (y - 0.5) + b;
+                        x2 = k * (y + 0.5) + b;
+                        x3 = x2 + 0.5; //开区间排点
                     } else {
-                        x1 = k * (y + 0.5f) + b;
-                        x2 = k * (y - 0.5f) + b;
+                        x1 = k * (y + 0.5) + b;
+                        x2 = k * (y - 0.5) + b;
                         x3 = -1;
                     }
                     if (x1 <= maxX && x2 >= minX) {
                         if (x1 < minX) x1 = minX;
                         if (x2 > maxX) x2 = maxX;
-                        if (x1 < -0.5f) startX = 0;
-                        else startX = (int) (x1 + 0.5f);
-                        if (x2 >= mWidth - 1 + 0.5f) endX = mWidth - 1;
-                        else endX = (int) (x2 + 0.5f);
+                        if (x1 < -0.5) startX = 0;
+                        else startX = (int) (x1 + 0.5);
+                        if (x2 >= mWidth - 1 + 0.5) endX = mWidth - 1;
+                        else endX = (int) (x2 + 0.5);
                         for (x = startX; x <= endX; x++) {
                             if (x != x3) {
                                 if (mDistance[x + y * mWidth] >= d) {
@@ -635,7 +635,7 @@ public class Camera {
             d3 = v1.getLength();
             if (maxX - minX > maxY - minY) {
                 int x, y, startX, endX, startY, endY;
-                float k, b, y1, y2, y3;
+                double k, b, y1, y2, y3;
                 k = (_p2.y - _p1.y) / (_p2.x - _p1.x);
                 b = (_p1.y - k * _p1.x + _p2.y - k * _p2.x) / 2;
                 if (minX <= 0) startX = 0;
@@ -644,21 +644,21 @@ public class Camera {
                 else endX = (int) (maxX + 1);
                 for (x = startX; x <= endX; x++) { //过量遍历
                     if (k > 0) {
-                        y1 = k * (x - 0.5f) + b;
-                        y2 = k * (x + 0.5f) + b;
-                        y3 = y2 + 0.5f; //开区间排点
+                        y1 = k * (x - 0.5) + b;
+                        y2 = k * (x + 0.5) + b;
+                        y3 = y2 + 0.5; //开区间排点
                     } else {
-                        y1 = k * (x + 0.5f) + b;
-                        y2 = k * (x - 0.5f) + b;
+                        y1 = k * (x + 0.5) + b;
+                        y2 = k * (x - 0.5) + b;
                         y3 = -1;
                     }
                     if (y1 <= maxY && y2 >= minY) {
                         if (y1 < minY) y1 = minY;
                         if (y2 > maxY) y2 = maxY;
-                        if (y1 < -0.5f) startY = 0;
-                        else startY = (int) (y1 + 0.5f);
-                        if (y2 >= mHeight - 1 + 0.5f) endY = mHeight - 1;
-                        else endY = (int) (y2 + 0.5f);
+                        if (y1 < -0.5) startY = 0;
+                        else startY = (int) (y1 + 0.5);
+                        if (y2 >= mHeight - 1 + 0.5) endY = mHeight - 1;
+                        else endY = (int) (y2 + 0.5);
                         for (y = startY; y <= endY; y++) {
                             if (y != y3) {
                                 if (mLens.remap(x, y)) { //优先采用反映射测距
@@ -682,7 +682,7 @@ public class Camera {
                 }
             } else {
                 int x, y, startX, endX, startY, endY;
-                float k, b, x1, x2, x3;
+                double k, b, x1, x2, x3;
                 k = (_p2.x - _p1.x) / (_p2.y - _p1.y);
                 b = (_p1.x - k * _p1.y + _p2.x - k * _p2.y) / 2;
                 if (minY <= 0) startY = 0;
@@ -691,21 +691,21 @@ public class Camera {
                 else endY = (int) (maxY + 1);
                 for (y = startY; y <= endY; y++) { //过量遍历
                     if (k > 0) {
-                        x1 = k * (y - 0.5f) + b;
-                        x2 = k * (y + 0.5f) + b;
-                        x3 = x2 + 0.5f; //开区间排点
+                        x1 = k * (y - 0.5) + b;
+                        x2 = k * (y + 0.5) + b;
+                        x3 = x2 + 0.5; //开区间排点
                     } else {
-                        x1 = k * (y + 0.5f) + b;
-                        x2 = k * (y - 0.5f) + b;
+                        x1 = k * (y + 0.5) + b;
+                        x2 = k * (y - 0.5) + b;
                         x3 = -1;
                     }
                     if (x1 <= maxX && x2 >= minX) {
                         if (x1 < minX) x1 = minX;
                         if (x2 > maxX) x2 = maxX;
-                        if (x1 < -0.5f) startX = 0;
-                        else startX = (int) (x1 + 0.5f);
-                        if (x2 >= mWidth - 1 + 0.5f) endX = mWidth - 1;
-                        else endX = (int) (x2 + 0.5f);
+                        if (x1 < -0.5) startX = 0;
+                        else startX = (int) (x1 + 0.5);
+                        if (x2 >= mWidth - 1 + 0.5) endX = mWidth - 1;
+                        else endX = (int) (x2 + 0.5);
                         for (x = startX; x <= endX; x++) {
                             if (x != x3) {
                                 if (mLens.remap(x, y)) { //优先采用反映射测距
