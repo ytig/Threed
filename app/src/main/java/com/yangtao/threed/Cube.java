@@ -1,17 +1,92 @@
 package com.yangtao.threed;
 
+import android.graphics.Color;
+
+import com.yangtao.engine.Point;
 import com.yangtao.engine.Surface;
-import com.yangtao.engine.Surfaces;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 立方体
  */
-public class Cube implements Surfaces {
+public class Cube extends Body {
+    private int mLineColor = Surface.TRANSPARENT; //线色
+    private int mTextureColor = Surface.TRANSPARENT; //面色
+    private List<Point> mPoints = new ArrayList<>(); //点集
+    private List<Surface> mSurfaces = new ArrayList<>(); //面集
+
     public Cube() {
+        mPoints.add(new Point());
+        mPoints.add(new Point());
+        mPoints.add(new Point());
+        mPoints.add(new Point());
+        mPoints.add(new Point());
+        mPoints.add(new Point());
+        mPoints.add(new Point());
+        mPoints.add(new Point());
+        mSurfaces.add(new MySurface(mPoints.get(2), mPoints.get(0), mPoints.get(1)));
+        mSurfaces.add(new MySurface(mPoints.get(0), mPoints.get(2), mPoints.get(3)));
+        mSurfaces.add(new MySurface(mPoints.get(3), mPoints.get(4), mPoints.get(0)));
+        mSurfaces.add(new MySurface(mPoints.get(4), mPoints.get(3), mPoints.get(7)));
+        mSurfaces.add(new MySurface(mPoints.get(2), mPoints.get(7), mPoints.get(3)));
+        mSurfaces.add(new MySurface(mPoints.get(7), mPoints.get(2), mPoints.get(6)));
+        mSurfaces.add(new MySurface(mPoints.get(1), mPoints.get(6), mPoints.get(2)));
+        mSurfaces.add(new MySurface(mPoints.get(6), mPoints.get(1), mPoints.get(5)));
+        mSurfaces.add(new MySurface(mPoints.get(0), mPoints.get(5), mPoints.get(1)));
+        mSurfaces.add(new MySurface(mPoints.get(5), mPoints.get(0), mPoints.get(4)));
+        mSurfaces.add(new MySurface(mPoints.get(7), mPoints.get(5), mPoints.get(4)));
+        mSurfaces.add(new MySurface(mPoints.get(5), mPoints.get(7), mPoints.get(6)));
+    }
+
+    /**
+     * 设置颜色
+     *
+     * @param textureColor
+     * @param lineColor
+     * @return
+     */
+    public Cube setColor(int textureColor, int lineColor) {
+        mTextureColor = textureColor;
+        mLineColor = lineColor;
+        for (Surface surface : mSurfaces) {
+            surface.textureType = (mTextureColor == Color.TRANSPARENT) ? Surface.TEXTURE_TYPE_NULL : Surface.TEXTURE_TYPE_UNIQUE;
+            surface.lineType = (mLineColor == Color.TRANSPARENT) ? Surface.toLineType(false, false, false) : Surface.toLineType(false, true, true);
+        }
+        return this;
     }
 
     @Override
     public Surface getSurface(int index) {
-        return null;
+        if (index == 0) {
+            float length = 1;
+            mPoints.get(0).set(-length / 2, length / 2, length / 2);
+            mPoints.get(1).set(-length / 2, -length / 2, length / 2);
+            mPoints.get(2).set(length / 2, -length / 2, length / 2);
+            mPoints.get(3).set(length / 2, length / 2, length / 2);
+            mPoints.get(4).set(-length / 2, length / 2, -length / 2);
+            mPoints.get(5).set(-length / 2, -length / 2, -length / 2);
+            mPoints.get(6).set(length / 2, -length / 2, -length / 2);
+            mPoints.get(7).set(length / 2, length / 2, -length / 2);
+            for (Point point : mPoints) transform(point);
+        }
+        return index < mSurfaces.size() ? mSurfaces.get(index) : null;
+    }
+
+    private class MySurface extends Surface {
+        public MySurface(Point a, Point b, Point c) {
+            super(a, b, c);
+        }
+
+        @Override
+        public int getTextureColor(float x, float y) {
+            return mTextureColor;
+        }
+
+        @Override
+        public int getLineColor() {
+            return mLineColor;
+        }
     }
 }
