@@ -557,7 +557,7 @@ public class Camera {
                 int x, y, startX, endX, startY, endY;
                 float k, b, y1, y2, y3;
                 k = (_p2.y - _p1.y) / (_p2.x - _p1.x);
-                b = _p1.y - k * _p1.x;
+                b = (_p1.y - k * _p1.x + _p2.y - k * _p2.x) / 2;
                 if (minX <= 0) startX = 0;
                 else startX = (int) minX;
                 if (maxX >= mWidth - 1) endX = mWidth - 1;
@@ -593,7 +593,7 @@ public class Camera {
                 int x, y, startX, endX, startY, endY;
                 float k, b, x1, x2, x3;
                 k = (_p2.x - _p1.x) / (_p2.y - _p1.y);
-                b = _p1.x - k * _p1.y;
+                b = (_p1.x - k * _p1.y + _p2.x - k * _p2.y) / 2;
                 if (minY <= 0) startY = 0;
                 else startY = (int) minY;
                 if (maxY >= mHeight - 1) endY = mHeight - 1;
@@ -637,7 +637,7 @@ public class Camera {
                 int x, y, startX, endX, startY, endY;
                 float k, b, y1, y2, y3;
                 k = (_p2.y - _p1.y) / (_p2.x - _p1.x);
-                b = _p1.y - k * _p1.x;
+                b = (_p1.y - k * _p1.x + _p2.y - k * _p2.x) / 2;
                 if (minX <= 0) startX = 0;
                 else startX = (int) minX;
                 if (maxX >= mWidth - 1) endX = mWidth - 1;
@@ -684,7 +684,7 @@ public class Camera {
                 int x, y, startX, endX, startY, endY;
                 float k, b, x1, x2, x3;
                 k = (_p2.x - _p1.x) / (_p2.y - _p1.y);
-                b = _p1.x - k * _p1.y;
+                b = (_p1.x - k * _p1.y + _p2.x - k * _p2.y) / 2;
                 if (minY <= 0) startY = 0;
                 else startY = (int) minY;
                 if (maxY >= mHeight - 1) endY = mHeight - 1;
