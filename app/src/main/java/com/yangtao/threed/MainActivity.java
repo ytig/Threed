@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
 }
 
 class MainView extends View {
-    private static final float SHRINK = 4; //缩小常数
+    private static final float SHRINK = 2; //缩小常数
 
     private MainCamera camera; //相机
     public List<Surfaces> scene; //场景
