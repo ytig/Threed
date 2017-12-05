@@ -1,5 +1,6 @@
 package com.yangtao.engine;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,12 +27,8 @@ public class Camera {
      * @param scene
      */
     public void draw(List<Surfaces> scene) {
-        for (int i = 0; i < mWidth; i++) { //重置画布
-            for (int j = 0; j < mHeight; j++) {
-                mCanvas[i + j * mWidth] = Surface.TRANSPARENT; //无色
-                mDistance[i + j * mWidth] = Float.MAX_VALUE; //最远距离
-            }
-        }
+        Arrays.fill(mCanvas, Surface.TRANSPARENT); //无色
+        Arrays.fill(mDistance, Float.MAX_VALUE); //最远距离
         for (int i = 0; i < scene.size(); i++) { //遍历绘制物
             Surfaces surfaces = scene.get(i);
             int index = 0;
