@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
         MainView content = new MainView(this);
         content.scene.add(new Cube()
                 .setColor(Color.TRANSPARENT, Color.RED)
-                .setTranslate(0, -100, 0));
+                .setTranslate(10, 0, 0));
         setContentView(content);
     }
 }
