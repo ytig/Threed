@@ -27,12 +27,14 @@ public class MainActivity extends Activity {
 }
 
 class MainView extends View {
+    private static final float SHRINK = 4; //缩小常数
+
     private MainCamera camera; //相机
     public List<Surfaces> scene; //场景
 
     public MainView(Context context) {
         super(context);
-        camera = new MainCamera(getContext().getResources().getDisplayMetrics().widthPixels, getContext().getResources().getDisplayMetrics().heightPixels, 90);
+        camera = new MainCamera((int) (getContext().getResources().getDisplayMetrics().widthPixels / SHRINK), (int) (getContext().getResources().getDisplayMetrics().heightPixels / SHRINK), 90);
         camera.mLens.jumpTo(1.8f);
         scene = new ArrayList<>();
     }
@@ -41,6 +43,7 @@ class MainView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         camera.draw(scene);
+        canvas.scale(SHRINK, SHRINK);
         canvas.drawBitmap(camera.mBitmap, 0, 0, null);
         postInvalidate();
     }
