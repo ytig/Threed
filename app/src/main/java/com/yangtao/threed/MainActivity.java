@@ -4,19 +4,20 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.yangtao.engine.Camera;
 import com.yangtao.threed.element.Rect;
 import com.yangtao.threed.element.Rects;
-import com.yangtao.threed.engine.TBuilder;
-import com.yangtao.threed.engine.TCamera;
+import com.yangtao.threed.engine.Core;
+import com.yangtao.threed.engine.ThreadView;
 
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(TBuilder.build(this, new MyCore()));
+        setContentView(new ThreadView(this, new MyCore(), null));
     }
 
-    private static class MyCore extends TCamera.TCore {
+    private static class MyCore extends Core {
         private Rects mRects; //长方体
 
         public MyCore() {
@@ -39,7 +40,7 @@ public class MainActivity extends Activity {
         }
 
         @Override
-        protected void doMotion(long ms) {
+        protected void doCompute(long ms, Camera.Lens lens, Object param) {
             mRects.setRotate(mRects.mRotateX, mRects.mRotateY, mRects.mRotateZ + 360 * ms / 6666f);
         }
     }
