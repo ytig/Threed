@@ -58,6 +58,9 @@ public abstract class Body implements Surfaces {
     }
 
     protected void transform(Point point) {
+        point.x *= mScale;
+        point.y *= mScale;
+        point.z *= mScale;
         //todo
         point.x += mTranslateX;
         point.y += mTranslateY;

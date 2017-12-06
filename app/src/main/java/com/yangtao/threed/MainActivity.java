@@ -21,13 +21,13 @@ public class MainActivity extends Activity {
         MainView content = new MainView(this);
         content.scene.add(new Cube()
                 .setColor(Color.TRANSPARENT, Color.RED)
-                .setTranslate(10.5f, 0, 0.5f));
+                .setTranslate(10.5f, 0, 0));
         setContentView(content);
     }
 }
 
 class MainView extends View {
-    private static final float SHRINK = 2; //缩小常数
+    private static final float SHRINK = 1; //缩小常数
 
     private MainCamera camera; //相机
     public List<Surfaces> scene; //场景

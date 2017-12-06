@@ -61,14 +61,14 @@ public class Cube extends Body {
     public Surface getSurface(int index) {
         if (index == 0) {
             float length = 1;
-            mPoints.get(0).set(-length / 2, length / 2, length / 2);
-            mPoints.get(1).set(-length / 2, -length / 2, length / 2);
-            mPoints.get(2).set(length / 2, -length / 2, length / 2);
-            mPoints.get(3).set(length / 2, length / 2, length / 2);
-            mPoints.get(4).set(-length / 2, length / 2, -length / 2);
-            mPoints.get(5).set(-length / 2, -length / 2, -length / 2);
-            mPoints.get(6).set(length / 2, -length / 2, -length / 2);
-            mPoints.get(7).set(length / 2, length / 2, -length / 2);
+            mPoints.get(0).set(-length / 2, length / 2, length);
+            mPoints.get(1).set(-length / 2, -length / 2, length);
+            mPoints.get(2).set(length / 2, -length / 2, length);
+            mPoints.get(3).set(length / 2, length / 2, length);
+            mPoints.get(4).set(-length / 2, length / 2, 0);
+            mPoints.get(5).set(-length / 2, -length / 2, 0);
+            mPoints.get(6).set(length / 2, -length / 2, 0);
+            mPoints.get(7).set(length / 2, length / 2, 0);
             for (Point point : mPoints) transform(point);
         }
         return index < mSurfaces.size() ? mSurfaces.get(index) : null;
