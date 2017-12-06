@@ -1,4 +1,4 @@
-package com.yangtao.threed;
+package com.yangtao.threed.element;
 
 import com.yangtao.engine.Point;
 import com.yangtao.engine.Surfaces;
@@ -7,12 +7,12 @@ import com.yangtao.engine.Surfaces;
  * 物体
  */
 public abstract class Body implements Surfaces {
-    protected float mTranslateX = 0; //x轴位移(-∞,+∞)
-    protected float mTranslateY = 0; //y轴位移(-∞,+∞)
-    protected float mTranslateZ = 0; //z轴位移(-∞,+∞)
-    protected float mScale = 1; //缩放比例[0,+∞)
-    protected float mRotateH = 0; //水平角度[0,360)
-    protected float mRotateV = 0; //垂直角度[-90,90]
+    public float mTranslateX = 0; //x轴位移(-∞,+∞)
+    public float mTranslateY = 0; //y轴位移(-∞,+∞)
+    public float mTranslateZ = 0; //z轴位移(-∞,+∞)
+    public float mScale = 1; //缩放比例[0,+∞)
+    public float mRotateH = 0; //水平角度[0,360)
+    public float mRotateV = 0; //垂直角度[-90,90]
 
     /**
      * 位移
@@ -61,15 +61,15 @@ public abstract class Body implements Surfaces {
         point.x *= mScale;
         point.y *= mScale;
         point.z *= mScale;
-        float x, y, z;
-        y = (float) (point.y * Math.cos(mRotateV * Math.PI / 180) - point.z * Math.sin(mRotateV * Math.PI / 180));
-        z = (float) (point.y * Math.sin(mRotateV * Math.PI / 180) + point.z * Math.cos(mRotateV * Math.PI / 180));
-        point.y = y;
-        point.z = z;
-        x = (float) (point.x * Math.cos(mRotateH * Math.PI / 180) - point.y * Math.sin(mRotateH * Math.PI / 180));
-        y = (float) (point.x * Math.sin(mRotateH * Math.PI / 180) + point.y * Math.cos(mRotateH * Math.PI / 180));
-        point.x = x;
-        point.y = y;
+        float a, b;
+        a = (float) (point.y * Math.cos(mRotateV * Math.PI / 180) - point.z * Math.sin(mRotateV * Math.PI / 180));
+        b = (float) (point.y * Math.sin(mRotateV * Math.PI / 180) + point.z * Math.cos(mRotateV * Math.PI / 180));
+        point.y = a;
+        point.z = b;
+        a = (float) (point.x * Math.cos(mRotateH * Math.PI / 180) - point.y * Math.sin(mRotateH * Math.PI / 180));
+        b = (float) (point.x * Math.sin(mRotateH * Math.PI / 180) + point.y * Math.cos(mRotateH * Math.PI / 180));
+        point.x = a;
+        point.y = b;
         point.x += mTranslateX;
         point.y += mTranslateY;
         point.z += mTranslateZ;
