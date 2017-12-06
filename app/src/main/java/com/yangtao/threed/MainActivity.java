@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.yangtao.engine.Camera;
 import com.yangtao.engine.Surfaces;
+import com.yangtao.threed.element.Rect;
 import com.yangtao.threed.element.Rects;
 
 import java.util.ArrayList;
@@ -21,8 +22,17 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         MainView content = new MainView(this);
         content.mCamera.mScene.add(new Rects(1, 1, 0.5f)
-                .setColor(Color.TRANSPARENT, Color.RED)
+                .setColor(Color.GRAY, Color.RED)
                 .setTranslate(5.5f, 0, 0.25f));
+        float l = 0.8f;
+        int s = 10;
+        for (int i = -s; i <= s; i++) {
+            for (int j = -s; j <= s; j++) {
+                content.mCamera.mScene.add(new Rect(l, l)
+                        .setColor(Color.TRANSPARENT, Color.WHITE)
+                        .setTranslate(i * l, j * l, 0));
+            }
+        }
         setContentView(content);
     }
 }

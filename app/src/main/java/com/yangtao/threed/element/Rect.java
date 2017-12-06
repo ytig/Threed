@@ -58,6 +58,7 @@ public class Rect extends Body {
 
         public MySurface(Point a, Point b, Point c) {
             super(a, b, c);
+            exactDistance = true;
         }
 
         public void setColor(int t, int l) {
