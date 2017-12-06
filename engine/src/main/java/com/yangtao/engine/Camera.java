@@ -558,10 +558,8 @@ public class Camera {
                 double k, b, y1, y2, y3;
                 k = (_p2.y - _p1.y) / (_p2.x - _p1.x);
                 b = (_p1.y - k * _p1.x + _p2.y - k * _p2.x) / 2;
-                startX = (int) minX;
-                if (startX < 0) startX = 0;
-                endX = (int) (maxX + 1);
-                if (endX > mWidth - 1) endX = mWidth - 1;
+                startX = Math.max((int) Math.floor(minX), 0);
+                endX = Math.min((int) Math.ceil(maxX), mWidth - 1);
                 for (x = startX; x <= endX; x++) { //过量遍历
                     if (k > 0) {
                         y1 = k * (x - 0.5) + b;
@@ -573,10 +571,8 @@ public class Camera {
                         y3 = -1;
                     }
                     if (y1 <= maxY && y2 >= minY) {
-                        startY = y1 > minY ? (int) (y1 + 0.5) : (int) (minY + 0.5);
-                        if (startY < 0) startY = 0;
-                        endY = y2 < maxY ? (int) (y2 + 0.5) : (int) (maxY + 0.5);
-                        if (endY > mHeight - 1) endY = mHeight - 1;
+                        startY = Math.max((int) Math.round(Math.max(y1, minY)), 0);
+                        endY = Math.min((int) Math.round(Math.min(y2, maxY)), mHeight - 1);
                         for (y = startY; y <= endY; y++) {
                             if (y != y3) {
                                 if (mDistance[x + y * mWidth] >= d) {
@@ -592,10 +588,8 @@ public class Camera {
                 double k, b, x1, x2, x3;
                 k = (_p2.x - _p1.x) / (_p2.y - _p1.y);
                 b = (_p1.x - k * _p1.y + _p2.x - k * _p2.y) / 2;
-                startY = (int) minY;
-                if (startY < 0) startY = 0;
-                endY = (int) (maxY + 1);
-                if (endY > mHeight - 1) endY = mHeight - 1;
+                startY = Math.max((int) Math.floor(minY), 0);
+                endY = Math.min((int) Math.ceil(maxY), mHeight - 1);
                 for (y = startY; y <= endY; y++) { //过量遍历
                     if (k > 0) {
                         x1 = k * (y - 0.5) + b;
@@ -607,10 +601,8 @@ public class Camera {
                         x3 = -1;
                     }
                     if (x1 <= maxX && x2 >= minX) {
-                        startX = x1 > minX ? (int) (x1 + 0.5) : (int) (minX + 0.5);
-                        if (startX < 0) startX = 0;
-                        endX = x2 < maxX ? (int) (x2 + 0.5) : (int) (maxX + 0.5);
-                        if (endX > mWidth - 1) endX = mWidth - 1;
+                        startX = Math.max((int) Math.round(Math.max(x1, minX)), 0);
+                        endX = Math.min((int) Math.round(Math.min(x2, maxX)), mWidth - 1);
                         for (x = startX; x <= endX; x++) {
                             if (x != x3) {
                                 if (mDistance[x + y * mWidth] >= d) {
@@ -634,10 +626,8 @@ public class Camera {
                 double k, b, y1, y2, y3;
                 k = (_p2.y - _p1.y) / (_p2.x - _p1.x);
                 b = (_p1.y - k * _p1.x + _p2.y - k * _p2.x) / 2;
-                startX = (int) minX;
-                if (startX < 0) startX = 0;
-                endX = (int) (maxX + 1);
-                if (endX > mWidth - 1) endX = mWidth - 1;
+                startX = Math.max((int) Math.floor(minX), 0);
+                endX = Math.min((int) Math.ceil(maxX), mWidth - 1);
                 for (x = startX; x <= endX; x++) { //过量遍历
                     if (k > 0) {
                         y1 = k * (x - 0.5) + b;
@@ -649,10 +639,8 @@ public class Camera {
                         y3 = -1;
                     }
                     if (y1 <= maxY && y2 >= minY) {
-                        startY = y1 > minY ? (int) (y1 + 0.5) : (int) (minY + 0.5);
-                        if (startY < 0) startY = 0;
-                        endY = y2 < maxY ? (int) (y2 + 0.5) : (int) (maxY + 0.5);
-                        if (endY > mHeight - 1) endY = mHeight - 1;
+                        startY = Math.max((int) Math.round(Math.max(y1, minY)), 0);
+                        endY = Math.min((int) Math.round(Math.min(y2, maxY)), mHeight - 1);
                         for (y = startY; y <= endY; y++) {
                             if (y != y3) {
                                 if (mLens.remap(x, y)) { //优先采用反映射测距
@@ -679,10 +667,8 @@ public class Camera {
                 double k, b, x1, x2, x3;
                 k = (_p2.x - _p1.x) / (_p2.y - _p1.y);
                 b = (_p1.x - k * _p1.y + _p2.x - k * _p2.y) / 2;
-                startY = (int) minY;
-                if (startY < 0) startY = 0;
-                endY = (int) (maxY + 1);
-                if (endY > mHeight - 1) endY = mHeight - 1;
+                startY = Math.max((int) Math.floor(minY), 0);
+                endY = Math.min((int) Math.ceil(maxY), mHeight - 1);
                 for (y = startY; y <= endY; y++) { //过量遍历
                     if (k > 0) {
                         x1 = k * (y - 0.5) + b;
@@ -694,10 +680,8 @@ public class Camera {
                         x3 = -1;
                     }
                     if (x1 <= maxX && x2 >= minX) {
-                        startX = x1 > minX ? (int) (x1 + 0.5) : (int) (minX + 0.5);
-                        if (startX < 0) startX = 0;
-                        endX = x2 < maxX ? (int) (x2 + 0.5) : (int) (maxX + 0.5);
-                        if (endX > mWidth - 1) endX = mWidth - 1;
+                        startX = Math.max((int) Math.round(Math.max(x1, minX)), 0);
+                        endX = Math.min((int) Math.round(Math.min(x2, maxX)), mWidth - 1);
                         for (x = startX; x <= endX; x++) {
                             if (x != x3) {
                                 if (mLens.remap(x, y)) { //优先采用反映射测距
