@@ -59,7 +59,7 @@ class MainView extends View implements Runnable {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap(mCamera.draw(), 0, 0, null);
+        mCamera.draw(canvas);
         postInvalidate();
     }
 }
@@ -75,10 +75,10 @@ class MainCamera extends Camera {
         mLens.jumpTo(1.8f);
     }
 
-    public Bitmap draw() {
+    public void draw(Canvas canvas) {
         clear();
         for (Surfaces surfaces : mScene) draw(surfaces);
         mBitmap.setPixels(mCanvas, 0, mWidth, 0, 0, mWidth, mHeight);
-        return mBitmap;
+        canvas.drawBitmap(mBitmap, 0, 0, null);
     }
 }
