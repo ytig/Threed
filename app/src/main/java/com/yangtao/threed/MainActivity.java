@@ -24,8 +24,8 @@ public class MainActivity extends Activity {
         content.mCamera.mScene.add(new Rects(1, 1, 0.5f)
                 .setColor(Color.GRAY, Color.RED)
                 .setTranslate(5.5f, 0, 0.25f));
-        float l = 0.8f;
-        int s = 10;
+        float l = 1f;
+        int s = 15;
         for (int i = -s; i <= s; i++) {
             for (int j = -s; j <= s; j++) {
                 content.mCamera.mScene.add(new Rect(l, l)
@@ -54,9 +54,9 @@ class MainView extends View implements Runnable {
 //                body.setRotate(body.mRotateH + 1, body.mRotateV + 1);
 //            }
 //        }
-        double r = 5.5;
+        double r = 5.5f;
         double a = 1;
-        mCamera.mLens.moveBy((float) (2 * r * Math.sin(Math.toRadians(a))), (float) ((a - 180) / 2));
+        mCamera.mLens.moveBy((float) (2 * r * Math.sin(Math.toRadians(a / 2))), (float) ((a - 180) / 2));
         mCamera.mLens.rotateBy((float) a, 0);
         postDelayed(this, 25);
     }
