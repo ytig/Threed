@@ -34,7 +34,7 @@ class MainView extends View implements Runnable {
 
     public MainView(Context context) {
         super(context);
-        mCamera = new MainCamera((int) (getContext().getResources().getDisplayMetrics().widthPixels / SHRINK), (int) (getContext().getResources().getDisplayMetrics().heightPixels / SHRINK), 90);
+        mCamera = new MainCamera((int) (getContext().getResources().getDisplayMetrics().widthPixels / SHRINK), (int) (getContext().getResources().getDisplayMetrics().heightPixels / SHRINK), 66);
         post(this);
     }
 
@@ -46,6 +46,10 @@ class MainView extends View implements Runnable {
 //                body.setRotate(body.mRotateH + 1, body.mRotateV + 1);
 //            }
 //        }
+        double r = 5.5;
+        double a = 1;
+        mCamera.mLens.moveBy((float) (2 * r * Math.sin(Math.toRadians(a))), (float) ((a - 180) / 2));
+        mCamera.mLens.rotateBy((float) a, 0);
         postDelayed(this, 25);
     }
 
