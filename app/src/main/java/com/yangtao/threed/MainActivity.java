@@ -38,13 +38,11 @@ public class MainActivity extends Activity {
 }
 
 class MainView extends View implements Runnable {
-    private static final float SHRINK = 1; //缩小常数
-
     public MainCamera mCamera; //相机
 
     public MainView(Context context) {
         super(context);
-        mCamera = new MainCamera((int) (getContext().getResources().getDisplayMetrics().widthPixels / SHRINK), (int) (getContext().getResources().getDisplayMetrics().heightPixels / SHRINK), 66);
+        mCamera = new MainCamera(getContext().getResources().getDisplayMetrics().widthPixels, getContext().getResources().getDisplayMetrics().heightPixels, 66);
         post(this);
     }
 
@@ -66,7 +64,6 @@ class MainView extends View implements Runnable {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.scale(SHRINK, SHRINK);
         canvas.drawBitmap(mCamera.draw(), 0, 0, null);
         postInvalidate();
     }
