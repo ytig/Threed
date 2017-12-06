@@ -31,5 +31,10 @@ public class MainActivity extends Activity {
                 }
             }
         }
+
+        @Override
+        protected void doMotion(long ms) {
+            System.out.println(ms);
+        }
     }
 }
