@@ -17,16 +17,16 @@ public class MainActivity extends Activity {
     }
 
     private static class MyCore extends TCamera.TCore {
-        private Rects mRects;
+        private Rects mRects; //长方体
 
         public MyCore() {
+            addFloor(15, 1f, Color.TRANSPARENT, Color.WHITE);
             mRects = new Rects(1.5f, 1f, 0.5f);
             mRects.setColor(Color.GRAY, Color.RED).setTranslate(5f, 0, 0.25f);
-            addSurfaces(mRects);
-            addFloor(15, 1f, Color.TRANSPARENT, Color.WHITE);
+            addSurfaces(); //反射
         }
 
-        protected void addFloor(int size, float length, Integer... colors) {
+        protected void addFloor(int size, float length, Integer... colors) { //添加地板
             if (colors.length <= 0) return;
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {

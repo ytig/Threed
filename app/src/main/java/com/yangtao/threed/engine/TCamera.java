@@ -6,6 +6,7 @@ import android.view.animation.AnimationUtils;
 import com.yangtao.engine.Camera;
 import com.yangtao.engine.Surfaces;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,21 +62,44 @@ public class TCamera extends Camera implements Runnable {
             mScene = new ArrayList<>();
         }
 
-        protected void addSurfaces(Surfaces surfaces) {
+        protected void addSurfaces(Surfaces surfaces) { //添加物体
             if (surfaces == null) return;
             if (mScene.contains(surfaces)) return;
             mScene.add(surfaces);
         }
 
-        protected void addSurfaces(List objects) {
+        protected void addSurfaces(List objects) { //添加列表
             if (objects == null) return;
             for (Object object : objects) {
                 if (object instanceof Surfaces) addSurfaces((Surfaces) object);
             }
         }
 
-        protected void addSurfaces() {
-            //todo
+        protected void addSurfaces() { //添加成员变量
+            try {
+                Field[] fields = this.getClass().getDeclaredFields();
+                if (fields != null) {
+                    for (Field field : fields) {
+                        if (field != null) {
+                            field.setAccessible(true);
+                            Object object = field.get(this);
+                            if (object instanceof Surfaces) addSurfaces((Surfaces) object);
+                            else if (object instanceof List) addSurfaces((List) object);
+                        }
+                    }
+                }
+                fields = this.getClass().getFields();
+                if (fields != null) {
+                    for (Field field : fields) {
+                        if (field != null) {
+                            Object object = field.get(this);
+                            if (object instanceof Surfaces) addSurfaces((Surfaces) object);
+                            else if (object instanceof List) addSurfaces((List) object);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+            }
         }
 
         protected abstract void doMotion(long ms); //间隔执行
