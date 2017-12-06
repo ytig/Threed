@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.yangtao.engine.Camera;
 import com.yangtao.engine.Surfaces;
-import com.yangtao.threed.element.Body;
 import com.yangtao.threed.element.Rect;
 import com.yangtao.threed.element.Rects;
 
@@ -22,9 +21,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MainView content = new MainView(this);
-        content.mCamera.mScene.add(new Rects(2, 1, 0.5f)
+        content.mCamera.mScene.add(new Rects(1.5f, 1f, 0.5f)
                 .setColor(Color.GRAY, Color.RED)
-                .setTranslate(5.5f, 0, 0.25f));
+                .setTranslate(0, 0, 0.25f));
         float l = 1f;
         int s = 15;
         for (int i = -s; i <= s; i++) {
@@ -44,23 +43,16 @@ class MainView extends View implements Runnable {
     public MainView(Context context) {
         super(context);
         mCamera = new MainCamera(getContext().getResources().getDisplayMetrics().widthPixels, getContext().getResources().getDisplayMetrics().heightPixels, 66);
+        mCamera.mLens.moveBy(-5f, 0);
         post(this);
     }
 
     @Override
     public void run() {
-        for (Surfaces surfaces : mCamera.mScene) {
-            if (surfaces instanceof Rects) {
-                Body body = (Body) surfaces;
-//                body.setTranslate(body.mTranslateX + 0.05f, body.mTranslateY, body.mTranslateZ);
-//                body.setScale(body.mScale * 1.01f);
-                body.setRotate(body.mRotateX + 1, body.mRotateY + 1, body.mRotateZ + 1);
-            }
-        }
-//        double r = 5.5f;
-//        double a = 1;
-//        mCamera.mLens.moveBy((float) (2 * r * Math.sin(Math.toRadians(a / 2))), (float) ((a - 180) / 2));
-//        mCamera.mLens.rotateBy((float) a, 0);
+        double r = 5f;
+        double a = 1;
+        mCamera.mLens.moveBy((float) (2 * r * Math.sin(Math.toRadians(a / 2))), (float) ((a - 180) / 2));
+        mCamera.mLens.rotateBy((float) a, 0);
         postDelayed(this, 25);
     }
 
