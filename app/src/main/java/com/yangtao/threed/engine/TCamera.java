@@ -62,9 +62,22 @@ public class TCamera extends Camera implements Runnable {
         }
 
         protected void addSurfaces(Surfaces surfaces) {
+            if (surfaces == null) return;
+            if (mScene.contains(surfaces)) return;
             mScene.add(surfaces);
         }
 
-        protected abstract void doMotion(long ms);
+        protected void addSurfaces(List objects) {
+            if (objects == null) return;
+            for (Object object : objects) {
+                if (object instanceof Surfaces) addSurfaces((Surfaces) object);
+            }
+        }
+
+        protected void addSurfaces() {
+            //todo
+        }
+
+        protected abstract void doMotion(long ms); //间隔执行
     }
 }

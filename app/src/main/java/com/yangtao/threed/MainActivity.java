@@ -17,24 +17,30 @@ public class MainActivity extends Activity {
     }
 
     private static class MyCore extends TCamera.TCore {
+        private Rects mRects;
+
         public MyCore() {
-            addSurfaces(new Rects(1.5f, 1f, 0.5f)
-                    .setColor(Color.GRAY, Color.RED)
-                    .setTranslate(5f, 0, 0.25f));
-            float l = 1f;
-            int s = 15;
-            for (int i = -s; i <= s; i++) {
-                for (int j = -s; j <= s; j++) {
-                    addSurfaces(new Rect(l, l)
-                            .setColor(Color.TRANSPARENT, Color.WHITE)
-                            .setTranslate(i * l, j * l, 0));
+            mRects = new Rects(1.5f, 1f, 0.5f);
+            mRects.setColor(Color.GRAY, Color.RED).setTranslate(5f, 0, 0.25f);
+            addSurfaces(mRects);
+            addFloor(15, 1f, Color.WHITE, Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT);
+        }
+
+        protected void addFloor(int size, float length, Integer... colors) {
+            if (colors.length <= 0) return;
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    Rect rect = new Rect(length, length);
+                    rect.setColor(colors[(2 * (i * size + j)) % colors.length], colors[(2 * (i * size + j) + 1) % colors.length]);
+                    rect.setTranslate((2 * i + 1 - size) * length / 2, (2 * j + 1 - size) * length / 2, 0);
+                    addSurfaces(rect);
                 }
             }
         }
 
         @Override
         protected void doMotion(long ms) {
-            System.out.println(ms);
+
         }
     }
 }
