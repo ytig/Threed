@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * 立方体
  */
+@Deprecated
 public class Cube extends Body {
     public static final float UNIT = 1f;
 
