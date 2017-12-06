@@ -1,7 +1,6 @@
 package com.yangtao.engine;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 相机
@@ -22,23 +21,33 @@ public class Camera {
     }
 
     /**
-     * 绘制物像
+     * 清空
      *
-     * @param scene
+     * @return
      */
-    public void draw(List<Surfaces> scene) {
+    public Camera clear() {
         Arrays.fill(mCanvas, Surface.TRANSPARENT); //无色
         Arrays.fill(mDistance, Float.MAX_VALUE); //最远距离
-        for (int i = 0; i < scene.size(); i++) { //遍历绘制物
-            Surfaces surfaces = scene.get(i);
-            int index = 0;
-            while (true) { //遍历绘制面
-                Surface surface = surfaces.getSurface(index);
-                if (surface == null) break;
-                draw(surface);
-                index++;
-            }
+        return this;
+    }
+
+    /**
+     * 绘制
+     *
+     * @param surfaces
+     * @return
+     */
+    public Camera draw(Surfaces surfaces) {
+        if (surfaces instanceof Surface) draw((Surface) surfaces);
+        int index = 0;
+        while (true) { //遍历绘制子像
+            Object child = surfaces.getChildAt(index);
+            if (child == null) break;
+            if (child instanceof Surfaces) draw((Surfaces) child);
+            else if (child instanceof Surface) draw((Surface) child);
+            index++;
         }
+        return this;
     }
 
     private void draw(Surface surface) { //绘制面

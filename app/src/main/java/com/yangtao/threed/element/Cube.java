@@ -60,7 +60,7 @@ public class Cube extends Body {
     }
 
     @Override
-    public Surface getSurface(int index) {
+    public Object getChildAt(int index) {
         if (index == 0) {
             mPoints.get(0).set(-UNIT / 2, UNIT / 2, UNIT / 2);
             mPoints.get(1).set(-UNIT / 2, -UNIT / 2, UNIT / 2);
@@ -72,7 +72,7 @@ public class Cube extends Body {
             mPoints.get(7).set(UNIT / 2, UNIT / 2, -UNIT / 2);
             for (Point point : mPoints) transform(point);
         }
-        return index < mSurfaces.size() ? mSurfaces.get(index) : null;
+        return Tools.getChildAt(mSurfaces, index);
     }
 
     private class MySurface extends Surface {
