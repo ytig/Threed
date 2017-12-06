@@ -51,9 +51,9 @@ public abstract class Body implements Surfaces {
         mRotateH = horizontal;
         while (mRotateH < 0) mRotateH += 360;
         while (mRotateH >= 360) mRotateH -= 360;
-        mRotateV += vertical;
-        if (mRotateV <= -90) mRotateV = -90;
-        if (mRotateV >= 90) mRotateV = 90;
+        mRotateV = vertical;
+        while (mRotateV < 0) mRotateV += 360;
+        while (mRotateV >= 360) mRotateV -= 360;
         return this;
     }
 
@@ -61,13 +61,15 @@ public abstract class Body implements Surfaces {
         point.x *= mScale;
         point.y *= mScale;
         point.z *= mScale;
-        //todo
         float x, y, z;
+        y = (float) (point.y * Math.cos(mRotateV * Math.PI / 180) - point.z * Math.sin(mRotateV * Math.PI / 180));
+        z = (float) (point.y * Math.sin(mRotateV * Math.PI / 180) + point.z * Math.cos(mRotateV * Math.PI / 180));
+        point.y = y;
+        point.z = z;
         x = (float) (point.x * Math.cos(mRotateH * Math.PI / 180) - point.y * Math.sin(mRotateH * Math.PI / 180));
         y = (float) (point.x * Math.sin(mRotateH * Math.PI / 180) + point.y * Math.cos(mRotateH * Math.PI / 180));
         point.x = x;
         point.y = y;
-        //todo
         point.x += mTranslateX;
         point.y += mTranslateY;
         point.z += mTranslateZ;
