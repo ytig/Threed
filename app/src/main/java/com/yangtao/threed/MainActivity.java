@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MainView content = new MainView(this);
-        content.mCamera.mScene.add(new Rects(1, 1, 0.5f)
+        content.mCamera.mScene.add(new Rects(2, 1, 0.5f)
                 .setColor(Color.GRAY, Color.RED)
                 .setTranslate(5.5f, 0, 0.25f));
         float l = 1f;

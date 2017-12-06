@@ -22,7 +22,7 @@ public class Rects extends Body {
         mRects.add(new Rect(mLengthX, mLengthZ));
         mRects.add(new Rect(mLengthY, mLengthZ));
         mRects.add(new Rect(mLengthY, mLengthZ));
-        for (Rect rect : mRects) rect.setParent(this);
+        setChildren(mRects);
     }
 
     /**

@@ -3,6 +3,8 @@ package com.yangtao.threed.element;
 import com.yangtao.engine.Point;
 import com.yangtao.engine.Surfaces;
 
+import java.util.List;
+
 /**
  * 物体
  */
@@ -74,6 +76,12 @@ public abstract class Body implements Surfaces {
 
     protected void setParent(Body parent) { //关联
         mParent = parent;
+    }
+
+    protected void setChildren(List<? extends Body> children) { //关联
+        for (Body child : children) {
+            if (child != null) child.setParent(this);
+        }
     }
 
     protected void doTransform(Point point) { //变换
