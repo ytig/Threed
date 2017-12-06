@@ -9,9 +9,6 @@ import android.view.animation.AnimationUtils;
 import com.yangtao.engine.Camera;
 import com.yangtao.engine.Surfaces;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 /**
  * 线程视图
  */
@@ -79,7 +76,6 @@ public class ThreadView<P> extends View {
 
     private class MyCamera extends Camera implements Runnable {
         private boolean isFinish; //运行结束
-        private Queue<Surfaces> mQueue; //物体队列
         private Mutex.DataHandler<Bitmap> bHandler; //位图处理
         private Mutex.DataHandler<P> pHandler; //参数处理
 
@@ -87,7 +83,6 @@ public class ThreadView<P> extends View {
             super(getContext().getResources().getDisplayMetrics().widthPixels, getContext().getResources().getDisplayMetrics().heightPixels, EYE_SHOT);
             mLens.jumpTo(EYE_HIGH);
             isFinish = false;
-            mQueue = new LinkedList<>();
             bHandler = new Mutex.DataHandler<Bitmap>() {
                 @Override
                 public void handleData(Bitmap data) {
@@ -113,8 +108,7 @@ public class ThreadView<P> extends View {
                 long millis = AnimationUtils.currentAnimationTimeMillis();
                 mParam.block(pHandler); //子线程运算
                 clear();
-                mQueue.addAll(mCore.mScene);
-                while (mQueue.size() > 0) draw(mQueue.remove());
+                for (Surfaces surfaces : mCore.mScene) draw(surfaces);
                 mBitmap.block(bHandler); //子线程渲染
                 millis = 25L + millis - AnimationUtils.currentAnimationTimeMillis();
                 if (millis > 0) {
