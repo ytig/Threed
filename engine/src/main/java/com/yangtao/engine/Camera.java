@@ -38,9 +38,10 @@ public class Camera {
      * @return
      */
     public Camera draw(Surfaces surfaces) {
+        surfaces.getChildAt(-1);
         if (surfaces instanceof Surface) draw((Surface) surfaces);
         int index = 0;
-        while (true) { //遍历绘制子像
+        while (true) { //遍历绘制
             Object child = surfaces.getChildAt(index);
             if (child == null) break;
             if (child instanceof Surfaces) draw((Surfaces) child);

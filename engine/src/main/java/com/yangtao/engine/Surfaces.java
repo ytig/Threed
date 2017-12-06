@@ -16,7 +16,7 @@ public interface Surfaces {
 
     class Tools {
         public static Object getChildAt(List list, int index) {
-            return (list != null && index < list.size()) ? list.get(index) : null;
+            return (list != null && index >= 0 && index < list.size()) ? list.get(index) : null;
         }
     }
 }
