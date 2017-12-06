@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
             mRects = new Rects(1.5f, 1f, 0.5f);
             mRects.setColor(Color.GRAY, Color.RED).setTranslate(5f, 0, 0.25f);
             addSurfaces(mRects);
-            addFloor(15, 1f, Color.WHITE, Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT);
+            addFloor(15, 1f, Color.TRANSPARENT, Color.WHITE);
         }
 
         protected void addFloor(int size, float length, Integer... colors) {
@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void doMotion(long ms) {
-
+            mRects.setRotate(mRects.mRotateX, mRects.mRotateY, mRects.mRotateZ + 360 * ms / 6666f);
         }
     }
 }
