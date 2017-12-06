@@ -62,6 +62,12 @@ public abstract class Body implements Surfaces {
         point.y *= mScale;
         point.z *= mScale;
         //todo
+        float x, y, z;
+        x = (float) (point.x * Math.cos(mRotateH * Math.PI / 180) - point.y * Math.sin(mRotateH * Math.PI / 180));
+        y = (float) (point.x * Math.sin(mRotateH * Math.PI / 180) + point.y * Math.cos(mRotateH * Math.PI / 180));
+        point.x = x;
+        point.y = y;
+        //todo
         point.x += mTranslateX;
         point.y += mTranslateY;
         point.z += mTranslateZ;
