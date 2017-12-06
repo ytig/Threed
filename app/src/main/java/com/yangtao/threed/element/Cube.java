@@ -71,7 +71,7 @@ public class Cube extends Body {
             mPoints.get(5).set(-UNIT / 2, -UNIT / 2, -UNIT / 2);
             mPoints.get(6).set(UNIT / 2, -UNIT / 2, -UNIT / 2);
             mPoints.get(7).set(UNIT / 2, UNIT / 2, -UNIT / 2);
-            for (Point point : mPoints) transform(point);
+            for (Point point : mPoints) doTransform(point);
         }
         return Tools.getChildAt(mSurfaces, index);
     }

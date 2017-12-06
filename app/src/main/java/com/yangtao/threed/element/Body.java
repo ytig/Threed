@@ -7,6 +7,7 @@ import com.yangtao.engine.Surfaces;
  * 物体
  */
 public abstract class Body implements Surfaces {
+    protected Body mParent; //父容器
     public float mTranslateX = 0; //x轴位移(-∞,+∞)
     public float mTranslateY = 0; //y轴位移(-∞,+∞)
     public float mTranslateZ = 0; //z轴位移(-∞,+∞)
@@ -57,7 +58,11 @@ public abstract class Body implements Surfaces {
         return this;
     }
 
-    protected void transform(Point point) { //变换
+    protected void setParent(Body parent) { //关联
+        mParent = parent;
+    }
+
+    protected void doTransform(Point point) { //变换
         point.x *= mScale;
         point.y *= mScale;
         point.z *= mScale;
@@ -73,5 +78,6 @@ public abstract class Body implements Surfaces {
         point.x += mTranslateX;
         point.y += mTranslateY;
         point.z += mTranslateZ;
+        if (mParent != null) mParent.doTransform(point);
     }
 }

@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.yangtao.engine.Camera;
 import com.yangtao.engine.Surfaces;
+import com.yangtao.threed.element.Body;
 import com.yangtao.threed.element.Rect;
 import com.yangtao.threed.element.Rects;
 
@@ -48,16 +49,18 @@ class MainView extends View implements Runnable {
 
     @Override
     public void run() {
-//        for (Surfaces surfaces : mCamera.mScene) {
-//            if (surfaces instanceof Body) {
-//                Body body = (Body) surfaces;
-//                body.setRotate(body.mRotateH + 1, body.mRotateV + 1);
-//            }
-//        }
-        double r = 5.5f;
-        double a = 1;
-        mCamera.mLens.moveBy((float) (2 * r * Math.sin(Math.toRadians(a / 2))), (float) ((a - 180) / 2));
-        mCamera.mLens.rotateBy((float) a, 0);
+        for (Surfaces surfaces : mCamera.mScene) {
+            if (surfaces instanceof Rects) {
+                Body body = (Body) surfaces;
+//                body.setTranslate(body.mTranslateX + 0.05f, body.mTranslateY, body.mTranslateZ);
+//                body.setScale(body.mScale * 1.01f);
+                body.setRotate(body.mRotateH + 1, body.mRotateV + 1);
+            }
+        }
+//        double r = 5.5f;
+//        double a = 1;
+//        mCamera.mLens.moveBy((float) (2 * r * Math.sin(Math.toRadians(a / 2))), (float) ((a - 180) / 2));
+//        mCamera.mLens.rotateBy((float) a, 0);
         postDelayed(this, 25);
     }
 

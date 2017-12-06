@@ -22,6 +22,7 @@ public class Rects extends Body {
         mRects.add(new Rect(mLengthX, mLengthZ));
         mRects.add(new Rect(mLengthY, mLengthZ));
         mRects.add(new Rect(mLengthY, mLengthZ));
+        for (Rect rect : mRects) rect.setParent(this);
     }
 
     /**
@@ -45,9 +46,9 @@ public class Rects extends Body {
             mRects.get(3).setTranslate(0, -mLengthY / 2, 0).setScale(1).setRotate(0, 90);
             mRects.get(4).setTranslate(-mLengthX / 2, 0, 0).setScale(1).setRotate(90, -90);
             mRects.get(5).setTranslate(mLengthX / 2, 0, 0).setScale(1).setRotate(-90, -90);
-            for (Rect rect : mRects) {
-                rect.setTranslate(mTranslateX + rect.mTranslateX, mTranslateY + rect.mTranslateY, mTranslateZ + rect.mTranslateZ).setScale(mScale * rect.mScale);
-            }
+//            for (Rect rect : mRects) {
+//                rect.setTranslate(mTranslateX + rect.mTranslateX, mTranslateY + rect.mTranslateY, mTranslateZ + rect.mTranslateZ).setScale(mScale * rect.mScale);
+//            }
         }
         return Tools.getChildAt(mRects, index);
     }

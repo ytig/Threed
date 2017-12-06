@@ -47,7 +47,7 @@ public class Rect extends Body {
             mPoints.get(1).set(-mLengthX / 2, -mLengthY / 2, 0);
             mPoints.get(2).set(mLengthX / 2, -mLengthY / 2, 0);
             mPoints.get(3).set(mLengthX / 2, mLengthY / 2, 0);
-            for (Point point : mPoints) transform(point);
+            for (Point point : mPoints) doTransform(point);
         }
         return Tools.getChildAt(mSurfaces, index);
     }
