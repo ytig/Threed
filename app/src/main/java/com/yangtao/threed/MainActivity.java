@@ -54,7 +54,7 @@ class MainView extends View implements Runnable {
                 Body body = (Body) surfaces;
 //                body.setTranslate(body.mTranslateX + 0.05f, body.mTranslateY, body.mTranslateZ);
 //                body.setScale(body.mScale * 1.01f);
-                body.setRotate(body.mRotateH + 1, body.mRotateV + 1);
+                body.setRotate(body.mRotateX + 1, body.mRotateY + 1, body.mRotateZ + 1);
             }
         }
 //        double r = 5.5f;

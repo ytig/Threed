@@ -11,9 +11,12 @@ public abstract class Body implements Surfaces {
     public float mTranslateX = 0; //x轴位移(-∞,+∞)
     public float mTranslateY = 0; //y轴位移(-∞,+∞)
     public float mTranslateZ = 0; //z轴位移(-∞,+∞)
-    public float mScale = 1; //缩放比例[0,+∞)
-    public float mRotateH = 0; //水平角度[0,360)
-    public float mRotateV = 0; //垂直角度[-90,90]
+    public float mScaleX = 1; //x轴缩放[0,+∞)
+    public float mScaleY = 1; //y轴缩放[0,+∞)
+    public float mScaleZ = 1; //z轴缩放[0,+∞)
+    public float mRotateX = 0; //x轴角度[0,360)
+    public float mRotateY = 0; //y轴角度[0,360)
+    public float mRotateZ = 0; //z轴角度[0,360)
 
     /**
      * 位移
@@ -33,28 +36,39 @@ public abstract class Body implements Surfaces {
     /**
      * 缩放
      *
-     * @param scale
+     * @param x
+     * @param y
+     * @param z
      * @return
      */
-    public Body setScale(float scale) {
-        mScale = Math.max(scale, 0);
+    public Body setScale(float x, float y, float z) {
+        x = Math.max(x, 0);
+        y = Math.max(y, 0);
+        z = Math.max(z, 0);
+        mScaleX = x;
+        mScaleY = y;
+        mScaleZ = z;
         return this;
     }
 
     /**
      * 旋转
      *
-     * @param horizontal
-     * @param vertical
+     * @param x
+     * @param y
+     * @param z
      * @return
      */
-    public Body setRotate(float horizontal, float vertical) {
-        mRotateH = horizontal;
-        while (mRotateH < 0) mRotateH += 360;
-        while (mRotateH >= 360) mRotateH -= 360;
-        mRotateV = vertical;
-        while (mRotateV < 0) mRotateV += 360;
-        while (mRotateV >= 360) mRotateV -= 360;
+    public Body setRotate(float x, float y, float z) {
+        while (x < 0) x += 360;
+        while (x >= 360) x -= 360;
+        while (y < 0) y += 360;
+        while (y >= 360) y -= 360;
+        while (z < 0) z += 360;
+        while (z >= 360) z -= 360;
+        mRotateX = x;
+        mRotateY = y;
+        mRotateZ = z;
         return this;
     }
 
@@ -63,16 +77,20 @@ public abstract class Body implements Surfaces {
     }
 
     protected void doTransform(Point point) { //变换
-        point.x *= mScale;
-        point.y *= mScale;
-        point.z *= mScale;
+        point.x *= mScaleX;
+        point.y *= mScaleY;
+        point.z *= mScaleZ;
         float a, b;
-        a = (float) (point.y * Math.cos(mRotateV * Math.PI / 180) - point.z * Math.sin(mRotateV * Math.PI / 180));
-        b = (float) (point.y * Math.sin(mRotateV * Math.PI / 180) + point.z * Math.cos(mRotateV * Math.PI / 180));
+        a = (float) (point.y * Math.cos(mRotateX * Math.PI / 180) - point.z * Math.sin(mRotateX * Math.PI / 180));
+        b = (float) (point.y * Math.sin(mRotateX * Math.PI / 180) + point.z * Math.cos(mRotateX * Math.PI / 180));
         point.y = a;
         point.z = b;
-        a = (float) (point.x * Math.cos(mRotateH * Math.PI / 180) - point.y * Math.sin(mRotateH * Math.PI / 180));
-        b = (float) (point.x * Math.sin(mRotateH * Math.PI / 180) + point.y * Math.cos(mRotateH * Math.PI / 180));
+        a = (float) (point.z * Math.cos(mRotateY * Math.PI / 180) - point.x * Math.sin(mRotateY * Math.PI / 180));
+        b = (float) (point.z * Math.sin(mRotateY * Math.PI / 180) + point.x * Math.cos(mRotateY * Math.PI / 180));
+        point.z = a;
+        point.x = b;
+        a = (float) (point.x * Math.cos(mRotateZ * Math.PI / 180) - point.y * Math.sin(mRotateZ * Math.PI / 180));
+        b = (float) (point.x * Math.sin(mRotateZ * Math.PI / 180) + point.y * Math.cos(mRotateZ * Math.PI / 180));
         point.x = a;
         point.y = b;
         point.x += mTranslateX;
