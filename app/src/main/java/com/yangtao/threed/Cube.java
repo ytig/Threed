@@ -12,6 +12,8 @@ import java.util.List;
  * 立方体
  */
 public class Cube extends Body {
+    public static final float UNIT = 1f;
+
     private int mLineColor = Surface.TRANSPARENT; //线色
     private int mTextureColor = Surface.TRANSPARENT; //面色
     private List<Point> mPoints = new ArrayList<>(); //点集
@@ -60,15 +62,14 @@ public class Cube extends Body {
     @Override
     public Surface getSurface(int index) {
         if (index == 0) {
-            float length = 1;
-            mPoints.get(0).set(-length / 2, length / 2, length);
-            mPoints.get(1).set(-length / 2, -length / 2, length);
-            mPoints.get(2).set(length / 2, -length / 2, length);
-            mPoints.get(3).set(length / 2, length / 2, length);
-            mPoints.get(4).set(-length / 2, length / 2, 0);
-            mPoints.get(5).set(-length / 2, -length / 2, 0);
-            mPoints.get(6).set(length / 2, -length / 2, 0);
-            mPoints.get(7).set(length / 2, length / 2, 0);
+            mPoints.get(0).set(-UNIT / 2, UNIT / 2, UNIT / 2);
+            mPoints.get(1).set(-UNIT / 2, -UNIT / 2, UNIT / 2);
+            mPoints.get(2).set(UNIT / 2, -UNIT / 2, UNIT / 2);
+            mPoints.get(3).set(UNIT / 2, UNIT / 2, UNIT / 2);
+            mPoints.get(4).set(-UNIT / 2, UNIT / 2, -UNIT / 2);
+            mPoints.get(5).set(-UNIT / 2, -UNIT / 2, -UNIT / 2);
+            mPoints.get(6).set(UNIT / 2, -UNIT / 2, -UNIT / 2);
+            mPoints.get(7).set(UNIT / 2, UNIT / 2, -UNIT / 2);
             for (Point point : mPoints) transform(point);
         }
         return index < mSurfaces.size() ? mSurfaces.get(index) : null;

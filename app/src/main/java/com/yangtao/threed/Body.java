@@ -36,7 +36,7 @@ public abstract class Body implements Surfaces {
      * @return
      */
     public Body setScale(float scale) {
-        mScale = scale;
+        mScale = Math.max(scale, 0);
         return this;
     }
 
@@ -57,7 +57,7 @@ public abstract class Body implements Surfaces {
         return this;
     }
 
-    protected void transform(Point point) {
+    protected void transform(Point point) { //变换
         point.x *= mScale;
         point.y *= mScale;
         point.z *= mScale;
