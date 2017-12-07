@@ -28,7 +28,7 @@ public class Param implements Mutex.DataHandler<Param> {
     public Param doMove(Context context, float dx, float dy) {
         float MAX_POWER = 3.3f / 1000; //最大移速
         if (context != null) {
-            movePower = (float) (MAX_POWER * Math.min(Math.sqrt(dx * dx + dy * dy) / (50 * context.getResources().getDisplayMetrics().density), 1));
+            movePower = (float) (MAX_POWER * Math.min(Math.sqrt(dx * dx + dy * dy) / (100 * context.getResources().getDisplayMetrics().density), 1));
             moveAngle = (float) Math.toDegrees(angle(-dy, dx));
         }
         return this;
@@ -47,7 +47,7 @@ public class Param implements Mutex.DataHandler<Param> {
         if (context != null) {
             boolean x = Math.abs(vx) > Math.abs(vy);
             float v = x ? vx : vy;
-            float a = (v < 0 ? -1 : 1) * MAX_ANGLE * Math.max(Math.min(Math.abs(v) / (1f * context.getResources().getDisplayMetrics().density), 1), 0);
+            float a = (v < 0 ? -1 : 1) * MAX_ANGLE * Math.min(Math.abs(v) / (1 * context.getResources().getDisplayMetrics().density), 1);
             if (x) horizontalAngle += a;
             else verticalAngle -= a;
         }
