@@ -7,9 +7,9 @@ import com.yangtao.threed.element.Rect;
  * 地板
  */
 public class Floor extends Body {
-    private int mSize;
-    private Integer[] mColors;
-    private Rect mRect;
+    private int mSize; //行列数
+    private Integer[] mColors; //颜色集
+    private Rect mRect; //地板块
 
     public Floor(int size, float length, Integer... colors) {
         mSize = size;

@@ -21,7 +21,7 @@ import java.util.List;
 public class MainActivity extends Activity {
     private static List initScene() {
         return Arrays.asList(
-                new Floor(15, 1f, Color.TRANSPARENT, Color.WHITE),
+                new Floor(15, 1f, Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT, Color.BLACK),
                 new Rects(1f, 1f, 1f).setColor(Color.BLACK, Color.WHITE).setTranslate(0, 0, 0.5f).setRotate(0, 0, 45)
         );
     }
