@@ -58,21 +58,21 @@ public abstract class Core<Param> {
      */
     public Core<Param> addSurfaces() {
         try {
-            Field[] fields = this.getClass().getDeclaredFields();
+            Field[] fields = this.getClass().getFields();
             if (fields != null) {
                 for (Field field : fields) {
                     if (field != null) {
-                        field.setAccessible(true);
                         Object object = field.get(this);
                         if (object instanceof Surfaces) addSurfaces((Surfaces) object);
                         else if (object instanceof List) addSurfaces((List) object);
                     }
                 }
             }
-            fields = this.getClass().getFields();
+            fields = this.getClass().getDeclaredFields();
             if (fields != null) {
                 for (Field field : fields) {
                     if (field != null) {
+                        field.setAccessible(true);
                         Object object = field.get(this);
                         if (object instanceof Surfaces) addSurfaces((Surfaces) object);
                         else if (object instanceof List) addSurfaces((List) object);
