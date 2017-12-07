@@ -1,11 +1,12 @@
 package com.yangtao.threed.extend;
 
 import com.yangtao.engine.Camera;
+import com.yangtao.threed.engine.Mutex;
 
 /**
  * 控制参数
  */
-public class Param {
+public class Param implements Mutex.DataHandler<Param> {
     private static final float HORIZONTAL_POWER = 66f / 1000; //水平转速
     private static final float VERTICAL_POWER = 66f / 1000; //垂直转速
 
@@ -13,6 +14,23 @@ public class Param {
     public float moveAngle = 0; //移动方向
     public float horizontalAngle = 0; //水平存量
     public float verticalAngle = 0; //垂直存量
+
+    public Param() {
+    }
+
+    /**
+     * 复制设值
+     *
+     * @param copy
+     * @return
+     */
+    public Param set(Param copy) {
+        movePower = copy.movePower;
+        moveAngle = copy.moveAngle;
+        horizontalAngle = copy.horizontalAngle;
+        verticalAngle = copy.verticalAngle;
+        return this;
+    }
 
     /**
      * 镜头变换
@@ -41,5 +59,10 @@ public class Param {
             verticalAngle = (verticalAngle < 0 ? -1 : 1) * tmp;
         }
         lens.rotateBy(h, v);
+    }
+
+    @Override
+    public void handleData(Param param) {
+        param.set(this);
     }
 }
