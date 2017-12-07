@@ -6,8 +6,8 @@ import com.yangtao.engine.Camera;
  * 控制参数
  */
 public class Param {
-    private static final float HORIZONTAL_POWER = 66 / 1000f;
-    private static final float VERTICAL_POWER = 66 / 1000f;
+    private static final float HORIZONTAL_POWER = 66f / 1000; //水平视角转速
+    private static final float VERTICAL_POWER = 66f / 1000; //垂直视角转速
 
     public float movePower = 0; //移动速度
     public float moveAngle = 0; //移动方向
