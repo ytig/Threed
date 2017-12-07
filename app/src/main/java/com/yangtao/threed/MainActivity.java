@@ -8,13 +8,26 @@ import com.yangtao.engine.Camera;
 import com.yangtao.threed.element.Rect;
 import com.yangtao.threed.element.Rects;
 import com.yangtao.threed.engine.Core;
-import com.yangtao.threed.engine.ThreadView;
+import com.yangtao.threed.engine.SimpleView;
 
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new ThreadView(this, new MyCore(), null).doCreate());
+        setContentView(new SimpleView(this, new MyCore(), new Object()) {
+            @Override
+            protected void onAttachedToWindow() {
+                super.onAttachedToWindow();
+                doCreate();
+                doResume();
+            }
+
+            @Override
+            protected void onDetachedFromWindow() {
+                super.onDetachedFromWindow();
+                doPause();
+            }
+        });
     }
 
     private static class MyCore extends Core {
