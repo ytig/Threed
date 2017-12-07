@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected void doCompute(long ms, Camera.Lens lens, Param param) {
-            param.doCompute(ms, lens);
+            param.doLens(ms, lens);
             mRects.setRotate(mRects.mRotateX, mRects.mRotateY, mRects.mRotateZ + 360 * ms / 6666f);
         }
     }

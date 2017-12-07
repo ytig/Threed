@@ -6,21 +6,21 @@ import com.yangtao.engine.Camera;
  * 控制参数
  */
 public class Param {
-    private static final float HORIZONTAL_POWER = 66f / 1000; //水平视角转速
-    private static final float VERTICAL_POWER = 66f / 1000; //垂直视角转速
+    private static final float HORIZONTAL_POWER = 66f / 1000; //水平转速
+    private static final float VERTICAL_POWER = 66f / 1000; //垂直转速
 
     public float movePower = 0; //移动速度
     public float moveAngle = 0; //移动方向
-    public float horizontalAngle = 0; //水平视角（增量）
-    public float verticalAngle = 0; //垂直视角（增量）
+    public float horizontalAngle = 0; //水平存量
+    public float verticalAngle = 0; //垂直存量
 
     /**
-     * 镜头控制
+     * 镜头变换
      *
      * @param ms
      * @param lens
      */
-    public void doCompute(long ms, Camera.Lens lens) {
+    public void doLens(long ms, Camera.Lens lens) {
         lens.moveBy(movePower * ms, moveAngle);
         float h = HORIZONTAL_POWER * ms;
         float tmp = Math.abs(horizontalAngle) - h;
