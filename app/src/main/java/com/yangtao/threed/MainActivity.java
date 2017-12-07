@@ -12,6 +12,7 @@ import com.yangtao.threed.engine.BaseView;
 import com.yangtao.threed.engine.Core;
 import com.yangtao.threed.engine.Mutex;
 import com.yangtao.threed.engine.SimpleView;
+import com.yangtao.threed.engine.ThreadView;
 import com.yangtao.threed.extend.Param;
 
 public class MainActivity extends Activity {
@@ -20,7 +21,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mView = new SimpleView<>(this, new MyCore(), new Param());
+        mView = new ThreadView<>(this, new MyCore(), new Param());
         mView.doCreate();
         mView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
@@ -40,7 +41,7 @@ public class MainActivity extends Activity {
                 mView.setParam(new Mutex.DataHandler<Param>() {
                     @Override
                     public void handleData(Param param) {
-                        param.horizontalAngle += 180;
+                        param.horizontalAngle += 10;
                     }
                 });
             }
