@@ -19,20 +19,6 @@ public class Param implements Mutex.DataHandler<Param> {
     }
 
     /**
-     * 复制设值
-     *
-     * @param copy
-     * @return
-     */
-    public Param set(Param copy) {
-        movePower = copy.movePower;
-        moveAngle = copy.moveAngle;
-        horizontalAngle = copy.horizontalAngle;
-        verticalAngle = copy.verticalAngle;
-        return this;
-    }
-
-    /**
      * 镜头变换
      *
      * @param ms
@@ -63,6 +49,11 @@ public class Param implements Mutex.DataHandler<Param> {
 
     @Override
     public void handleData(Param param) {
-        param.set(this);
+        param.movePower = movePower;
+        param.moveAngle = moveAngle;
+        param.horizontalAngle += horizontalAngle;
+        param.verticalAngle += verticalAngle;
+        horizontalAngle = 0;
+        verticalAngle = 0;
     }
 }
