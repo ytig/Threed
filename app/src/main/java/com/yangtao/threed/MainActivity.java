@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new ThreadView(this, new MyCore(), null));
+        setContentView(new ThreadView(this, new MyCore(), null).doCreate());
     }
 
     private static class MyCore extends Core {
