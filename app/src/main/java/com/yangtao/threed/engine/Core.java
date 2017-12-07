@@ -23,20 +23,40 @@ public abstract class Core<Param> {
         mScene = new ArrayList<>();
     }
 
-    protected void addSurfaces(Surfaces surfaces) { //添加物体
-        if (surfaces == null) return;
-        if (mScene.contains(surfaces)) return;
-        mScene.add(surfaces);
-    }
-
-    protected void addSurfaces(List objects) { //添加列表
-        if (objects == null) return;
-        for (Object object : objects) {
-            if (object instanceof Surfaces) addSurfaces((Surfaces) object);
+    /**
+     * 添加物体
+     *
+     * @param surfaces
+     * @return
+     */
+    public Core<Param> addSurfaces(Surfaces surfaces) {
+        if (surfaces != null) {
+            if (!mScene.contains(surfaces)) mScene.add(surfaces);
         }
+        return this;
     }
 
-    protected void addSurfaces() { //添加成员变量
+    /**
+     * 添加列表
+     *
+     * @param objects
+     * @return
+     */
+    public Core<Param> addSurfaces(List objects) {
+        if (objects != null) {
+            for (Object object : objects) {
+                if (object instanceof Surfaces) addSurfaces((Surfaces) object);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * 添加成员变量
+     *
+     * @return
+     */
+    public Core<Param> addSurfaces() {
         try {
             Field[] fields = this.getClass().getDeclaredFields();
             if (fields != null) {
@@ -61,6 +81,7 @@ public abstract class Core<Param> {
             }
         } catch (Exception e) {
         }
+        return this;
     }
 
     void doCompute(Camera.Lens lens, Param param) { //发起计算
