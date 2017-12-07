@@ -3,34 +3,57 @@ package com.yangtao.threed;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import com.yangtao.engine.Camera;
 import com.yangtao.threed.element.Rect;
 import com.yangtao.threed.element.Rects;
+import com.yangtao.threed.engine.BaseView;
 import com.yangtao.threed.engine.Core;
+import com.yangtao.threed.engine.Mutex;
 import com.yangtao.threed.engine.SimpleView;
+import com.yangtao.threed.extend.Param;
 
 public class MainActivity extends Activity {
+    private BaseView<Param> mView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new SimpleView(this, new MyCore(), new Object()) {
+        mView = new SimpleView<>(this, new MyCore(), new Param());
+        mView.doCreate();
+        mView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
-            protected void onAttachedToWindow() {
-                super.onAttachedToWindow();
-                doCreate();
-                doResume();
+            public void onViewAttachedToWindow(View v) {
+                mView.doResume();
             }
 
             @Override
-            protected void onDetachedFromWindow() {
-                super.onDetachedFromWindow();
-                doPause();
+            public void onViewDetachedFromWindow(View v) {
+                mView.doPause();
+            }
+        });
+        setContentView(mView);
+        mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mView.setParam(new Mutex.DataHandler<Param>() {
+                    @Override
+                    public void handleData(Param param) {
+                        param.horizontalAngle += 180;
+                    }
+                });
             }
         });
     }
 
-    private static class MyCore extends Core {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mView.doDestroy();
+    }
+
+    private static class MyCore extends Core<Param> {
         private Rects mRects; //长方体
 
         public MyCore() {
@@ -53,7 +76,8 @@ public class MainActivity extends Activity {
         }
 
         @Override
-        protected void doCompute(long ms, Camera.Lens lens, Object param) {
+        protected void doCompute(long ms, Camera.Lens lens, Param param) {
+            param.doCompute(ms, lens);
             mRects.setRotate(mRects.mRotateX, mRects.mRotateY, mRects.mRotateZ + 360 * ms / 6666f);
         }
     }
