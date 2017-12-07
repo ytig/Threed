@@ -1,6 +1,8 @@
 package com.yangtao.engine;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 相机
@@ -11,6 +13,18 @@ public class Camera {
     public int mHeight; //画布高度
     public int[] mCanvas; //画布色彩值
     private float[] mDistance; //画布点距
+    private Recycler<Point> POINTS = new Recycler<Point>() {
+        @Override
+        protected Point newModel() {
+            return new Point();
+        }
+    }; //点缓存池
+    private Recycler<Vector> VECTORS = new Recycler<Vector>() {
+        @Override
+        protected Vector newModel() {
+            return new Vector();
+        }
+    }; //线缓存池
 
     public Camera(int width, int height, float verticalAngle) {
         mLens = new Lens(width, height, verticalAngle);
@@ -91,7 +105,7 @@ public class Camera {
                     if (_b.x < _c.x) drawTexture(surface, _a, _b, _c, false);
                     else drawTexture(surface, _a, _c, _b, false);
                 } else { //非平三角形
-                    p = Point.obtain().set((_a.x * _b.y + _c.x * _a.y - _c.x * _b.y - _a.x * _c.y) / (_a.y - _c.y), _b.y, 0);
+                    p = POINTS.obtain().set((_a.x * _b.y + _c.x * _a.y - _c.x * _b.y - _a.x * _c.y) / (_a.y - _c.y), _b.y, 0);
                     if (_b.x < p.x) {
                         if (_b.y - _a.y < 1) drawTexture(surface, _a, _b, p); //暴力遍历，防止浮点数溢出
                         else drawTexture(surface, _a, _b, p, false);
@@ -103,7 +117,7 @@ public class Camera {
                         if (_c.y - _b.y < 1) drawTexture(surface, p, _b, _c); //暴力遍历，防止浮点数溢出
                         else drawTexture(surface, p, _b, _c, true);
                     }
-                    Point.recycle(p);
+                    POINTS.recycle(p);
                 }
             }
         }
@@ -164,7 +178,7 @@ public class Camera {
                 return;
             }
             if (surface.textureType == Surface.TEXTURE_TYPE_BLUR) { //绘制模糊纹理
-                Vector ap = Vector.obtain();
+                Vector ap = VECTORS.obtain();
                 float c1, c2, c3, c4, c5, c6;
                 c1 = mLens.mapC.y - mLens.mapA.y;
                 c2 = mLens.mapC.x - mLens.mapA.x;
@@ -187,12 +201,12 @@ public class Camera {
                         }
                     }
                 }
-                Vector.recycle(ap);
+                VECTORS.recycle(ap);
                 return;
             }
             if (surface.textureType == Surface.TEXTURE_TYPE_EXACT) { //绘制精确纹理
-                Vector ab = Vector.obtain().set(surface.a, surface.b);
-                Vector ap = Vector.obtain();
+                Vector ab = VECTORS.obtain().set(surface.a, surface.b);
+                Vector ap = VECTORS.obtain();
                 float c1, c2, c3, c4, c5, c6;
                 c1 = mLens.mPoint.x - surface.a.x;
                 c2 = mLens.mPoint.y - surface.a.y;
@@ -217,8 +231,8 @@ public class Camera {
                         }
                     }
                 }
-                Vector.recycle(ab);
-                Vector.recycle(ap);
+                VECTORS.recycle(ab);
+                VECTORS.recycle(ap);
                 return;
             }
         } else { //精确测距
@@ -241,7 +255,7 @@ public class Camera {
                 return;
             }
             if (surface.textureType == Surface.TEXTURE_TYPE_BLUR) { //绘制模糊纹理
-                Vector ap = Vector.obtain();
+                Vector ap = VECTORS.obtain();
                 float c1, c2, c3, c4, c5, c6;
                 c1 = mLens.mapC.y - mLens.mapA.y;
                 c2 = mLens.mapC.x - mLens.mapA.x;
@@ -265,12 +279,12 @@ public class Camera {
                         }
                     }
                 }
-                Vector.recycle(ap);
+                VECTORS.recycle(ap);
                 return;
             }
             if (surface.textureType == Surface.TEXTURE_TYPE_EXACT) { //绘制精确纹理
-                Vector ab = Vector.obtain().set(surface.a, surface.b);
-                Vector ap = Vector.obtain();
+                Vector ab = VECTORS.obtain().set(surface.a, surface.b);
+                Vector ap = VECTORS.obtain();
                 float c1, c2, c3, c4, c5, c6;
                 c1 = mLens.mPoint.x - surface.a.x;
                 c2 = mLens.mPoint.y - surface.a.y;
@@ -295,8 +309,8 @@ public class Camera {
                         }
                     }
                 }
-                Vector.recycle(ab);
-                Vector.recycle(ap);
+                VECTORS.recycle(ab);
+                VECTORS.recycle(ap);
                 return;
             }
         }
@@ -338,7 +352,7 @@ public class Camera {
                 return;
             }
             if (surface.textureType == Surface.TEXTURE_TYPE_BLUR) { //绘制模糊纹理
-                Vector ap = Vector.obtain();
+                Vector ap = VECTORS.obtain();
                 float c1, c2, c3, c4, c5, c6;
                 c1 = mLens.mapC.y - mLens.mapA.y;
                 c2 = mLens.mapC.x - mLens.mapA.x;
@@ -374,12 +388,12 @@ public class Camera {
                         }
                     }
                 }
-                Vector.recycle(ap);
+                VECTORS.recycle(ap);
                 return;
             }
             if (surface.textureType == Surface.TEXTURE_TYPE_EXACT) { //绘制精确纹理
-                Vector ab = Vector.obtain().set(surface.a, surface.b);
-                Vector ap = Vector.obtain();
+                Vector ab = VECTORS.obtain().set(surface.a, surface.b);
+                Vector ap = VECTORS.obtain();
                 float c1, c2, c3, c4, c5, c6;
                 c1 = mLens.mPoint.x - surface.a.x;
                 c2 = mLens.mPoint.y - surface.a.y;
@@ -417,8 +431,8 @@ public class Camera {
                         }
                     }
                 }
-                Vector.recycle(ab);
-                Vector.recycle(ap);
+                VECTORS.recycle(ab);
+                VECTORS.recycle(ap);
                 return;
             }
         } else { //精确测距
@@ -454,7 +468,7 @@ public class Camera {
                 return;
             }
             if (surface.textureType == Surface.TEXTURE_TYPE_BLUR) { //绘制模糊纹理
-                Vector ap = Vector.obtain();
+                Vector ap = VECTORS.obtain();
                 float c1, c2, c3, c4, c5, c6;
                 c1 = mLens.mapC.y - mLens.mapA.y;
                 c2 = mLens.mapC.x - mLens.mapA.x;
@@ -491,12 +505,12 @@ public class Camera {
                         }
                     }
                 }
-                Vector.recycle(ap);
+                VECTORS.recycle(ap);
                 return;
             }
             if (surface.textureType == Surface.TEXTURE_TYPE_EXACT) { //绘制精确纹理
-                Vector ab = Vector.obtain().set(surface.a, surface.b);
-                Vector ap = Vector.obtain();
+                Vector ab = VECTORS.obtain().set(surface.a, surface.b);
+                Vector ap = VECTORS.obtain();
                 float c1, c2, c3, c4, c5, c6;
                 c1 = mLens.mPoint.x - surface.a.x;
                 c2 = mLens.mPoint.y - surface.a.y;
@@ -534,8 +548,8 @@ public class Camera {
                         }
                     }
                 }
-                Vector.recycle(ab);
-                Vector.recycle(ap);
+                VECTORS.recycle(ab);
+                VECTORS.recycle(ap);
                 return;
             }
         }
@@ -625,8 +639,8 @@ public class Camera {
                 }
             }
         } else { //精确测距
-            Vector v1 = Vector.obtain().set(_p1, _p2);
-            Vector v2 = Vector.obtain();
+            Vector v1 = VECTORS.obtain().set(_p1, _p2);
+            Vector v2 = VECTORS.obtain();
             float d1, d2, d3, d;
             d1 = p1.distanceTo(mLens.mPoint);
             d2 = p2.distanceTo(mLens.mPoint);
@@ -714,15 +728,15 @@ public class Camera {
                     }
                 }
             }
-            Vector.recycle(v1);
-            Vector.recycle(v2);
+            VECTORS.recycle(v1);
+            VECTORS.recycle(v2);
         }
     }
 
     /**
      * 镜头
      */
-    public static class Lens {
+    public class Lens {
         private static final float FOCUS_DISTANCE = 0.001f; //焦距，单位米
 
         private float mScale; //成像坐标系到真实坐标系转换比例，单位像素比米
@@ -735,7 +749,7 @@ public class Camera {
         private Vector mVectorX = new Vector(); //水平向量
         private Vector mVectorY = new Vector(); //垂直向量
 
-        public Lens(int width, int height, float verticalAngle) {
+        private Lens(int width, int height, float verticalAngle) {
             mScale = (float) (height / (2 * FOCUS_DISTANCE * Math.tan(verticalAngle * Math.PI / 360))); //根据屏高与垂直视角计算
             mOffsetX = (width - 1) / 2f;
             mOffsetY = (height - 1) / 2f;
@@ -794,21 +808,21 @@ public class Camera {
         private Point mapA = new Point(); //映射点a
         private Point mapB = new Point(); //映射点b
         private Point mapC = new Point(); //映射点c
-        private float mapDirection; //映射面方向
+        private float mapDirection = 0; //映射面方向
         private Vector normalVector = new Vector(); //法向量
         private float verticalDistance = 0; //焦点到成像面距离
         private Vector remapVector = new Vector(); //反映射向量
         private float remapDistance = 0; //反映射距离
 
         private boolean map(Surface surface) { //转换真实坐标为映射坐标
-            Vector v = Vector.obtain();
+            Vector v = VECTORS.obtain();
             if (mVector.multiplyBy(v.set(surface.a.x - mPoint.x - mVector.x, surface.a.y - mPoint.y - mVector.y, surface.a.z - mPoint.z - mVector.z)) >= 0) {
                 v.set(mPoint, surface.a);
                 v.setLength(FOCUS_DISTANCE * v.getLength() * FOCUS_DISTANCE / v.multiplyBy(mVector));
                 v.set(v.x - mVector.x, v.y - mVector.y, v.z - mVector.z);
                 mapA.set(v.multiplyBy(mVectorX) * mScale + mOffsetX, v.multiplyBy(mVectorY) * mScale + mOffsetY, 0);
             } else { //a点处于屏幕后方
-                Vector.recycle(v);
+                VECTORS.recycle(v);
                 return false;
             }
             if (mVector.multiplyBy(v.set(surface.b.x - mPoint.x - mVector.x, surface.b.y - mPoint.y - mVector.y, surface.b.z - mPoint.z - mVector.z)) >= 0) {
@@ -817,7 +831,7 @@ public class Camera {
                 v.set(v.x - mVector.x, v.y - mVector.y, v.z - mVector.z);
                 mapB.set(v.multiplyBy(mVectorX) * mScale + mOffsetX, v.multiplyBy(mVectorY) * mScale + mOffsetY, 0);
             } else { //b点处于屏幕后方
-                Vector.recycle(v);
+                VECTORS.recycle(v);
                 return false;
             }
             if (mVector.multiplyBy(v.set(surface.c.x - mPoint.x - mVector.x, surface.c.y - mPoint.y - mVector.y, surface.c.z - mPoint.z - mVector.z)) >= 0) {
@@ -826,13 +840,13 @@ public class Camera {
                 v.set(v.x - mVector.x, v.y - mVector.y, v.z - mVector.z);
                 mapC.set(v.multiplyBy(mVectorX) * mScale + mOffsetX, v.multiplyBy(mVectorY) * mScale + mOffsetY, 0);
             } else { //c点处于屏幕后方
-                Vector.recycle(v);
+                VECTORS.recycle(v);
                 return false;
             }
             mapDirection = (mapB.x - mapA.x) * (mapA.y - mapC.y) - (mapB.y - mapA.y) * (mapA.x - mapC.x); //顺时为负、逆时为正、重合共线为零
             normalVector.set(surface.a, surface.b, surface.c); //点重合时为零向量
             verticalDistance = Math.abs(normalVector.multiplyBy(v.set(mPoint, surface.a))); //点重合、焦点共面时为零
-            Vector.recycle(v);
+            VECTORS.recycle(v);
             return true;
         }
 
@@ -847,4 +861,48 @@ public class Camera {
             return true;
         }
     }
+}
+
+/**
+ * 对象循环机
+ *
+ * @param <Model>
+ */
+abstract class Recycler<Model> {
+    private int mSize; //数量上限
+    private Queue<Model> mCache; //对象缓存
+
+    public Recycler() {
+        this(Integer.MAX_VALUE);
+    }
+
+    public Recycler(int size) {
+        mSize = size;
+        mCache = new LinkedList<>();
+    }
+
+    /**
+     * 获取对象
+     *
+     * @return
+     */
+    public Model obtain() {
+        return mCache.size() > 0 ? mCache.remove() : newModel();
+    }
+
+    /**
+     * 归还对象
+     *
+     * @param model
+     * @return
+     */
+    public boolean recycle(Model model) {
+        if (mCache.size() < mSize) {
+            mCache.add(model);
+            return true;
+        }
+        return false;
+    }
+
+    protected abstract Model newModel(); //新建对象
 }

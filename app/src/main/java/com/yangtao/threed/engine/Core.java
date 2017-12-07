@@ -11,8 +11,10 @@ import java.util.List;
 
 /**
  * 处理内核
+ *
+ * @param <Param>
  */
-public abstract class Core<P> {
+public abstract class Core<Param> {
     private long mTime; //计时
     List<Surfaces> mScene; //场景
 
@@ -61,11 +63,11 @@ public abstract class Core<P> {
         }
     }
 
-    void doCompute(Camera.Lens lens, P param) { //发起计算
+    void doCompute(Camera.Lens lens, Param param) { //发起计算
         long time = AnimationUtils.currentAnimationTimeMillis();
         doCompute(time > mTime ? (time - mTime) : 0, lens, param);
         mTime = time;
     }
 
-    protected abstract void doCompute(long ms, Camera.Lens lens, P param); //处理计算
+    protected abstract void doCompute(long ms, Camera.Lens lens, Param param); //处理计算
 }

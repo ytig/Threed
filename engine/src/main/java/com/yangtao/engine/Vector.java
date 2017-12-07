@@ -1,14 +1,9 @@
 package com.yangtao.engine;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 /**
  * 线
  */
 public class Vector {
-    private static Queue<Vector> cache = new LinkedList<>(); //对象缓存
-
     public float x = 0; //3d坐标系指向东方、2d坐标系指向右端
     public float y = 0; //3d坐标系指向南方、2d坐标系指向底部
     public float z = 0; //3d坐标系指向天空
@@ -110,17 +105,5 @@ public class Vector {
      */
     public float multiplyBy(Vector v) {
         return x * v.x + y * v.y + z * v.z;
-    }
-
-    public void recycle() {
-        recycle(this);
-    }
-
-    public static void recycle(Vector vector) {
-        cache.add(vector);
-    }
-
-    public static Vector obtain() {
-        return cache.size() > 0 ? cache.remove() : new Vector();
     }
 }
