@@ -14,7 +14,7 @@ import com.yangtao.engine.Surfaces;
  *
  * @param <Param>
  */
-public class ThreadView<Param> extends View implements Mutex.DataMessenger<Param> {
+public class ThreadView<Param> extends BaseView<Param> {
     public static final int STATE_TODO = 0; //待开始
     public static final int STATE_DOING = 1; //在运行
     public static final int STATE_UNDO = 2; //被挂起
@@ -38,11 +38,7 @@ public class ThreadView<Param> extends View implements Mutex.DataMessenger<Param
         mCamera = new MyCamera(core);
     }
 
-    /**
-     * 获取状态
-     *
-     * @return
-     */
+    @Override
     public int getState() {
         final MyState state = new MyState();
         mState.block(new Mutex.DataHandler<MyState>() {
@@ -55,12 +51,8 @@ public class ThreadView<Param> extends View implements Mutex.DataMessenger<Param
         return state.mState;
     }
 
-    /**
-     * 创建
-     *
-     * @return
-     */
-    public ThreadView<Param> doCreate() {
+    @Override
+    public void doCreate() {
         mState.block(new Mutex.DataHandler<MyState>() {
             @Override
             public void handleData(MyState myState) {
@@ -70,15 +62,10 @@ public class ThreadView<Param> extends View implements Mutex.DataMessenger<Param
                 new Thread(mCamera).start();
             }
         });
-        return this;
     }
 
-    /**
-     * 恢复
-     *
-     * @return
-     */
-    public ThreadView<Param> doResume() {
+    @Override
+    public void doResume() {
         mState.block(new Mutex.DataHandler<MyState>() {
             @Override
             public void handleData(MyState myState) {
@@ -87,15 +74,10 @@ public class ThreadView<Param> extends View implements Mutex.DataMessenger<Param
                 myState.mState = STATE_DOING;
             }
         });
-        return this;
     }
 
-    /**
-     * 暂停
-     *
-     * @return
-     */
-    public ThreadView<Param> doPause() {
+    @Override
+    public void doPause() {
         mState.block(new Mutex.DataHandler<MyState>() {
             @Override
             public void handleData(MyState myState) {
@@ -104,15 +86,10 @@ public class ThreadView<Param> extends View implements Mutex.DataMessenger<Param
                 myState.mState = STATE_UNDO;
             }
         });
-        return this;
     }
 
-    /**
-     * 销毁
-     *
-     * @return
-     */
-    public ThreadView<Param> doDestroy() {
+    @Override
+    public void doDestroy() {
         mState.block(new Mutex.DataHandler<MyState>() {
             @Override
             public void handleData(MyState myState) {
@@ -121,11 +98,10 @@ public class ThreadView<Param> extends View implements Mutex.DataMessenger<Param
                 myState.mState = STATE_DONE;
             }
         });
-        return this;
     }
 
     @Override
-    public void setData(Mutex.DataHandler<Param> handler) {
+    public void setParam(Mutex.DataHandler<Param> handler) {
         mParam.block(handler); //注参
     }
 
