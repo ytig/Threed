@@ -43,7 +43,7 @@ public class Param implements Mutex.DataHandler<Param> {
      * @return
      */
     public Param doRotate(Context context, float vx, float vy) {
-        float MAX_ANGLE = 16f; //最大转角
+        float MAX_ANGLE = 15f; //最大转角
         if (context != null) {
             boolean x = Math.abs(vx) > Math.abs(vy);
             float v = x ? vx : vy;
@@ -62,7 +62,7 @@ public class Param implements Mutex.DataHandler<Param> {
      * @return
      */
     public Param doLens(long ms, Camera.Lens lens) {
-        float ROTATE_POWER = 66f / 1000; //视角转速
+        float ROTATE_POWER = 50f / 1000; //视角转速
         lens.moveBy(movePower * ms, moveAngle);
         float h = ROTATE_POWER * ms;
         float tmp = Math.abs(horizontalAngle) - h;
