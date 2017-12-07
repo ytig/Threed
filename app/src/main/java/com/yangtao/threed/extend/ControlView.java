@@ -54,7 +54,9 @@ public class ControlView extends View {
             }
             if (mRight.id == id) {
                 mRight.id = -1;
-                //todo
+                long dt = AnimationUtils.currentAnimationTimeMillis() - mRight.t;
+                if (dt > 0)
+                    mView.setParam(mParam.doRotate(getContext(), (x - mRight.x) / dt, (y - mRight.y) / dt));
             }
         }
         if (action == MotionEvent.ACTION_CANCEL) {

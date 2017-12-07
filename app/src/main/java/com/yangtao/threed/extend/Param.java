@@ -43,13 +43,13 @@ public class Param implements Mutex.DataHandler<Param> {
      * @return
      */
     public Param doRotate(Context context, float vx, float vy) {
-        float MAX_ANGLE = 33f; //最大转角
+        float MAX_ANGLE = 16f; //最大转角
         if (context != null) {
             boolean x = Math.abs(vx) > Math.abs(vy);
             float v = x ? vx : vy;
-            float a = (v < 0 ? -1 : 1) * MAX_ANGLE * Math.max(Math.min((Math.abs(v) - 0.4f * context.getResources().getDisplayMetrics().density) / (4f * context.getResources().getDisplayMetrics().density), 1), 0);
+            float a = (v < 0 ? -1 : 1) * MAX_ANGLE * Math.max(Math.min(Math.abs(v) / (1f * context.getResources().getDisplayMetrics().density), 1), 0);
             if (x) horizontalAngle += a;
-            else verticalAngle += a;
+            else verticalAngle -= a;
         }
         return this;
     }
