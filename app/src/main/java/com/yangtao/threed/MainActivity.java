@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.yangtao.threed.engine.BaseView;
-import com.yangtao.threed.engine.ThreadView;
+import com.yangtao.threed.engine.SimpleView;
 import com.yangtao.threed.extend.ControlView;
 import com.yangtao.threed.extend.Home;
 import com.yangtao.threed.extend.Param;
@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mView = new ThreadView<>(this, new Home(), new Param());
+        mView = new SimpleView<>(this, new Home(), new Param());
         mView.doCreate();
         mView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
