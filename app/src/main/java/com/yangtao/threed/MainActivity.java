@@ -16,7 +16,7 @@ import com.yangtao.threed.extend.ControlView;
 import com.yangtao.threed.extend.Param;
 
 public class MainActivity extends Activity {
-    private BaseView<Param> mView;
+    private BaseView<Param> mView; //渲染视图
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
