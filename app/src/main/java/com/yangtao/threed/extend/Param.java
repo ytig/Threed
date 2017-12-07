@@ -49,7 +49,7 @@ public class Param implements Mutex.DataHandler<Param> {
             float v = x ? vx : vy;
             float a = (v < 0 ? -1 : 1) * MAX_ANGLE * Math.min(Math.abs(v) / (2 * context.getResources().getDisplayMetrics().density), 1);
             if (x) horizontalAngle += a;
-            else verticalAngle -= a / 2;
+            else verticalAngle -= a * 3 / 4;
         }
         return this;
     }
