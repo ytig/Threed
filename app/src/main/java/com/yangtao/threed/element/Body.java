@@ -78,10 +78,12 @@ public abstract class Body implements Surfaces {
         mParent = parent;
     }
 
+    protected void setChild(Body child) { //关联
+        if (child != null) child.setParent(this);
+    }
+
     protected void setChildren(List<? extends Body> children) { //关联
-        for (Body child : children) {
-            if (child != null) child.setParent(this);
-        }
+        for (Body child : children) setChild(child);
     }
 
     protected void doTransform(Point point) { //变换
