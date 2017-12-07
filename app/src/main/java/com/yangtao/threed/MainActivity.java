@@ -11,7 +11,6 @@ import com.yangtao.threed.element.Rects;
 import com.yangtao.threed.engine.BaseView;
 import com.yangtao.threed.engine.Core;
 import com.yangtao.threed.engine.Mutex;
-import com.yangtao.threed.engine.SimpleView;
 import com.yangtao.threed.engine.ThreadView;
 import com.yangtao.threed.extend.Param;
 
@@ -41,7 +40,7 @@ public class MainActivity extends Activity {
                 mView.setParam(new Mutex.DataHandler<Param>() {
                     @Override
                     public void handleData(Param param) {
-                        param.horizontalAngle += 10;
+                        param.doMove(mView.getContext(), 5, 0);
                     }
                 });
             }
