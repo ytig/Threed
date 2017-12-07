@@ -14,6 +14,12 @@ public class Param {
     public float horizontalAngle = 0; //水平视角（增量）
     public float verticalAngle = 0; //垂直视角（增量）
 
+    /**
+     * 镜头控制
+     *
+     * @param ms
+     * @param lens
+     */
     public void doCompute(long ms, Camera.Lens lens) {
         lens.moveBy(movePower * ms, moveAngle);
         float h = HORIZONTAL_POWER * ms;
