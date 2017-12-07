@@ -1,5 +1,7 @@
 package com.yangtao.threed.extend;
 
+import android.content.Context;
+
 import com.yangtao.engine.Camera;
 import com.yangtao.threed.engine.Mutex;
 
@@ -7,15 +9,41 @@ import com.yangtao.threed.engine.Mutex;
  * 控制参数
  */
 public class Param implements Mutex.DataHandler<Param> {
-    private static final float HORIZONTAL_POWER = 66f / 1000; //水平转速
-    private static final float VERTICAL_POWER = 66f / 1000; //垂直转速
-
-    public float movePower = 0; //移动速度
-    public float moveAngle = 0; //移动方向
-    public float horizontalAngle = 0; //水平存量
-    public float verticalAngle = 0; //垂直存量
+    private float movePower = 0; //移动速度
+    private float moveAngle = 0; //移动方向
+    private float horizontalAngle = 0; //水平存量
+    private float verticalAngle = 0; //垂直存量
 
     public Param() {
+    }
+
+    /**
+     * 移动镜头
+     *
+     * @param context
+     * @param dx
+     * @param dy
+     */
+    public void doMove(Context context, float dx, float dy) {
+        float MAX_POWER = 3.3f / 1000; //最大移速
+        movePower = (float) (MAX_POWER * Math.min(Math.sqrt(dx * dx + dy * dy) / (50 * context.getResources().getDisplayMetrics().density), 1));
+        moveAngle = (float) Math.toDegrees(angle(-dy, dx));
+    }
+
+    /**
+     * 旋转镜头
+     *
+     * @param context
+     * @param vx
+     * @param vy
+     */
+    public void doRotate(Context context, float vx, float vy) {
+        float MAX_ANGLE = 33f; //最大转角
+        boolean x = Math.abs(vx) > Math.abs(vy);
+        float v = x ? vx : vy;
+        float a = (v < 0 ? -1 : 1) * MAX_ANGLE * Math.max(Math.min((Math.abs(v) - 0.4f * context.getResources().getDisplayMetrics().density) / (4f * context.getResources().getDisplayMetrics().density), 1), 0);
+        if (x) horizontalAngle += a;
+        else verticalAngle += a;
     }
 
     /**
@@ -25,8 +53,9 @@ public class Param implements Mutex.DataHandler<Param> {
      * @param lens
      */
     public void doLens(long ms, Camera.Lens lens) {
+        float ROTATE_POWER = 66f / 1000; //视角转速
         lens.moveBy(movePower * ms, moveAngle);
-        float h = HORIZONTAL_POWER * ms;
+        float h = ROTATE_POWER * ms;
         float tmp = Math.abs(horizontalAngle) - h;
         if (tmp <= 0) {
             h = horizontalAngle;
@@ -35,7 +64,7 @@ public class Param implements Mutex.DataHandler<Param> {
             h *= (horizontalAngle < 0 ? -1 : 1);
             horizontalAngle = (horizontalAngle < 0 ? -1 : 1) * tmp;
         }
-        float v = VERTICAL_POWER * ms;
+        float v = ROTATE_POWER * ms;
         tmp = Math.abs(verticalAngle) - v;
         if (tmp <= 0) {
             v = verticalAngle;
@@ -55,5 +84,16 @@ public class Param implements Mutex.DataHandler<Param> {
         param.verticalAngle += verticalAngle;
         horizontalAngle = 0;
         verticalAngle = 0;
+    }
+
+    private static double angle(double x, double y) {
+        if (x == 0) {
+            if (y == 0) return 0;
+            return (y > 0 ? 1 : -1) * Math.PI / 2;
+        } else {
+            double a = Math.atan(y / x);
+            if (x < 0) a += (a > 0 ? -1 : 1) * Math.PI;
+            return a;
+        }
     }
 }
