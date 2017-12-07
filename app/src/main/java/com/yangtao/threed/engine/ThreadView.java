@@ -15,10 +15,6 @@ import com.yangtao.engine.Surfaces;
  * @param <Param>
  */
 public class ThreadView<Param> extends BaseView<Param> {
-    public static final int STATE_TODO = 0; //待开始
-    public static final int STATE_DOING = 1; //在运行
-    public static final int STATE_UNDO = 2; //被挂起
-    public static final int STATE_DONE = 3; //已结束
     private static final float EYE_SHOT = 66; //视野
     private static final float EYE_HIGH = 1.8f; //视高
 
@@ -34,8 +30,8 @@ public class ThreadView<Param> extends BaseView<Param> {
         mState = new Mutex<>(new MyState());
         mBitmap = new Mutex<>(Bitmap.createBitmap(context.getResources().getDisplayMetrics().widthPixels, context.getResources().getDisplayMetrics().heightPixels, Bitmap.Config.RGB_565));
         mParam = new Mutex<>(param);
-        mHandler = new BitmapHandler();
         mCamera = new MyCamera(core);
+        mHandler = new BitmapHandler();
     }
 
     @Override
@@ -159,7 +155,7 @@ public class ThreadView<Param> extends BaseView<Param> {
         public void run() {
             while (true) {
                 long millis = AnimationUtils.currentAnimationTimeMillis();
-                mState.block(sHandler); //读取
+                mState.block(sHandler); //分岔
                 if (mChoice < 0) break;
                 if (mChoice > 0) {
                     mParam.block(pHandler); //运算

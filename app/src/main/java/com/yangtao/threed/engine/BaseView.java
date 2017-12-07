@@ -5,6 +5,8 @@ import android.view.View;
 
 /**
  * 基础视图
+ *
+ * @param <Param>
  */
 public abstract class BaseView<Param> extends View {
     public static final int STATE_TODO = 0; //待开始
