@@ -22,7 +22,6 @@ public class ThreadView<Param> extends View {
     private Mutex<Bitmap> mBitmap; //位图
     private Core<Param> mCore; //内核
     private Mutex<Param> mParam; //参数
-    private MyCamera mCamera; //相机
 
     public ThreadView(Context context, Core<Param> core, Param param) {
         super(context);
@@ -31,7 +30,7 @@ public class ThreadView<Param> extends View {
         mBitmap = new Mutex<>(Bitmap.createBitmap(context.getResources().getDisplayMetrics().widthPixels, context.getResources().getDisplayMetrics().heightPixels, Bitmap.Config.RGB_565));
         mCore = core;
         mParam = new Mutex<>(param);
-        mCamera = new MyCamera();
+        new MyCamera();
     }
 
     /**
@@ -41,13 +40,6 @@ public class ThreadView<Param> extends View {
      */
     public void setParam(Mutex.DataHandler<Param> handler) {
         mParam.block(handler); //主线程注参
-    }
-
-    /**
-     * 结束运行
-     */
-    public void finish() {
-        mCamera.finish();
     }
 
     @Override
@@ -77,14 +69,12 @@ public class ThreadView<Param> extends View {
     }
 
     private class MyCamera extends Camera implements Runnable {
-        private boolean isFinish; //运行结束
         private Mutex.DataHandler<Bitmap> bHandler; //位图处理
         private Mutex.DataHandler<Param> pHandler; //参数处理
 
         public MyCamera() {
             super(getContext().getResources().getDisplayMetrics().widthPixels, getContext().getResources().getDisplayMetrics().heightPixels, EYE_SHOT);
             mLens.jumpTo(EYE_HIGH);
-            isFinish = false;
             bHandler = new Mutex.DataHandler<Bitmap>() {
                 @Override
                 public void handleData(Bitmap data) {
@@ -100,13 +90,9 @@ public class ThreadView<Param> extends View {
             new Thread(this).start();
         }
 
-        public void finish() {
-            isFinish = true;
-        }
-
         @Override
         public void run() {
-            while (!isFinish) {
+            while (true) {
                 long millis = AnimationUtils.currentAnimationTimeMillis();
                 mParam.block(pHandler); //子线程运算
                 clear();
