@@ -66,6 +66,7 @@ public class Rect extends Body {
             textureType = (textureColor == Color.TRANSPARENT) ? Surface.TEXTURE_TYPE_NULL : Surface.TEXTURE_TYPE_UNIQUE;
             lineColor = l;
             lineType = (lineColor == Color.TRANSPARENT) ? Surface.toLineType(false, false, false) : Surface.toLineType(false, true, true);
+            doubleFace = (textureType == Surface.TEXTURE_TYPE_NULL) && (lineType != 0);
         }
 
         @Override
