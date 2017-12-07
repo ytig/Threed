@@ -10,7 +10,7 @@ import com.yangtao.engine.Camera;
 import com.yangtao.threed.element.Rects;
 import com.yangtao.threed.engine.BaseView;
 import com.yangtao.threed.engine.Core;
-import com.yangtao.threed.engine.SimpleView;
+import com.yangtao.threed.engine.ThreadView;
 import com.yangtao.threed.extend.ControlView;
 import com.yangtao.threed.extend.Floor;
 import com.yangtao.threed.extend.Param;
@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mView = new SimpleView<>(this, new Core<Param>() {
+        mView = new ThreadView<>(this, new Core<Param>() {
             @Override
             protected void doCompute(long ms, Camera.Lens lens, Param param) {
                 param.doLens(ms, lens);
