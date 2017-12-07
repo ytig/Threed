@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 /**
- * Created by zhangliang on 17/12/7.
+ * 基础视图
  */
 public abstract class BaseView<Param> extends View {
     public static final int STATE_TODO = 0; //待开始
