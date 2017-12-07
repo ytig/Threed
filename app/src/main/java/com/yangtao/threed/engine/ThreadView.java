@@ -14,7 +14,7 @@ import com.yangtao.engine.Surfaces;
  *
  * @param <Param>
  */
-public class ThreadView<Param> extends View {
+public class ThreadView<Param> extends View implements Mutex.DataMessenger<Param> {
     public static final int STATE_TODO = 0; //待开始
     public static final int STATE_DOING = 1; //在运行
     public static final int STATE_UNDO = 2; //被挂起
@@ -124,12 +124,8 @@ public class ThreadView<Param> extends View {
         return this;
     }
 
-    /**
-     * 设置参数
-     *
-     * @param handler
-     */
-    public void setParam(Mutex.DataHandler<Param> handler) {
+    @Override
+    public void setData(Mutex.DataHandler<Param> handler) {
         mParam.block(handler); //注参
     }
 

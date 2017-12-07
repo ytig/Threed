@@ -68,4 +68,13 @@ public class Mutex<Data> {
     public interface DataHandler<Data> {
         void handleData(Data data);
     }
+
+    /**
+     * 数据中转
+     *
+     * @param <Data>
+     */
+    public interface DataMessenger<Data> {
+        void setData(DataHandler<Data> handler);
+    }
 }
