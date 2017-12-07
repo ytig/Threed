@@ -18,19 +18,17 @@ public class ThreadView<Param> extends View {
     public static final float EYE_SHOT = 66; //视野
     public static final float EYE_HIGH = 1.8f; //视高
 
-    private BitmapHandler mHandler; //处理
-    private Mutex<Bitmap> mBitmap; //位图
-    private Core<Param> mCore; //内核
-    private Mutex<Param> mParam; //参数
+    private Mutex<Bitmap> mBitmap; //互斥位图
+    private Mutex<Param> mParam; //互斥参数
+    private BitmapHandler mHandler; //位图处理（主线程）
 
     public ThreadView(Context context, Core<Param> core, Param param) {
         super(context);
         setLayerType(View.LAYER_TYPE_HARDWARE, null); //关闭硬件加速
-        mHandler = new BitmapHandler();
         mBitmap = new Mutex<>(Bitmap.createBitmap(context.getResources().getDisplayMetrics().widthPixels, context.getResources().getDisplayMetrics().heightPixels, Bitmap.Config.RGB_565));
-        mCore = core;
         mParam = new Mutex<>(param);
-        new MyCamera();
+        mHandler = new BitmapHandler();
+        new MyCamera(core);
     }
 
     /**
@@ -39,13 +37,13 @@ public class ThreadView<Param> extends View {
      * @param handler
      */
     public void setParam(Mutex.DataHandler<Param> handler) {
-        mParam.block(handler); //主线程注参
+        mParam.block(handler); //注参
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mHandler.handle(canvas, mBitmap); //主线程绘制
+        mHandler.handle(canvas, mBitmap); //绘制
         postInvalidate();
     }
 
@@ -69,12 +67,14 @@ public class ThreadView<Param> extends View {
     }
 
     private class MyCamera extends Camera implements Runnable {
-        private Mutex.DataHandler<Bitmap> bHandler; //位图处理
-        private Mutex.DataHandler<Param> pHandler; //参数处理
+        private Core<Param> mCore; //处理内核
+        private Mutex.DataHandler<Bitmap> bHandler; //位图处理（子线程）
+        private Mutex.DataHandler<Param> pHandler; //参数处理（子线程）
 
-        public MyCamera() {
+        public MyCamera(Core<Param> core) {
             super(getContext().getResources().getDisplayMetrics().widthPixels, getContext().getResources().getDisplayMetrics().heightPixels, EYE_SHOT);
             mLens.jumpTo(EYE_HIGH);
+            mCore = core;
             bHandler = new Mutex.DataHandler<Bitmap>() {
                 @Override
                 public void handleData(Bitmap data) {
@@ -84,7 +84,7 @@ public class ThreadView<Param> extends View {
             pHandler = new Mutex.DataHandler<Param>() {
                 @Override
                 public void handleData(Param data) {
-                    mCore.doCompute(mLens, data);
+                    if (mCore != null) mCore.doCompute(mLens, data);
                 }
             };
             new Thread(this).start();
@@ -94,10 +94,10 @@ public class ThreadView<Param> extends View {
         public void run() {
             while (true) {
                 long millis = AnimationUtils.currentAnimationTimeMillis();
-                mParam.block(pHandler); //子线程运算
+                mParam.block(pHandler); //运算
                 clear();
-                for (Surfaces surfaces : mCore.mScene) draw(surfaces);
-                mBitmap.block(bHandler); //子线程渲染
+                for (Surfaces surfaces : mCore.mScene) draw(surfaces); //渲染
+                mBitmap.block(bHandler); //上色
                 millis = 25L + millis - AnimationUtils.currentAnimationTimeMillis();
                 if (millis > 0) {
                     try {
