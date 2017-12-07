@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
         public MyCore() {
             addFloor(15, 1f, Color.TRANSPARENT, Color.WHITE);
             mRects = new Rects(1.5f, 1f, 0.5f);
-            mRects.setColor(Color.WHITE, Color.RED).setTranslate(5f, 0, 0.25f);
+            mRects.setColor(Color.BLACK, Color.RED).setTranslate(5f, 0, 0.25f);
             addSurfaces(); //反射
         }
 
