@@ -55,7 +55,7 @@ public class ControlView extends View {
             if (mRight.id == id) {
                 mRight.id = -1;
                 long dt = AnimationUtils.currentAnimationTimeMillis() - mRight.t;
-                if (dt > 0)
+                if (dt > 0 && dt < 500)
                     mView.setParam(mParam.doRotate(getContext(), (x - mRight.x) / dt, (y - mRight.y) / dt));
             }
         }
