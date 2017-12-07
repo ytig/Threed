@@ -23,11 +23,15 @@ public class Param implements Mutex.DataHandler<Param> {
      * @param context
      * @param dx
      * @param dy
+     * @return
      */
-    public void doMove(Context context, float dx, float dy) {
+    public Param doMove(Context context, float dx, float dy) {
         float MAX_POWER = 3.3f / 1000; //最大移速
-        movePower = (float) (MAX_POWER * Math.min(Math.sqrt(dx * dx + dy * dy) / (50 * context.getResources().getDisplayMetrics().density), 1));
-        moveAngle = (float) Math.toDegrees(angle(-dy, dx));
+        if (context != null) {
+            movePower = (float) (MAX_POWER * Math.min(Math.sqrt(dx * dx + dy * dy) / (50 * context.getResources().getDisplayMetrics().density), 1));
+            moveAngle = (float) Math.toDegrees(angle(-dy, dx));
+        }
+        return this;
     }
 
     /**
@@ -36,14 +40,18 @@ public class Param implements Mutex.DataHandler<Param> {
      * @param context
      * @param vx
      * @param vy
+     * @return
      */
-    public void doRotate(Context context, float vx, float vy) {
+    public Param doRotate(Context context, float vx, float vy) {
         float MAX_ANGLE = 33f; //最大转角
-        boolean x = Math.abs(vx) > Math.abs(vy);
-        float v = x ? vx : vy;
-        float a = (v < 0 ? -1 : 1) * MAX_ANGLE * Math.max(Math.min((Math.abs(v) - 0.4f * context.getResources().getDisplayMetrics().density) / (4f * context.getResources().getDisplayMetrics().density), 1), 0);
-        if (x) horizontalAngle += a;
-        else verticalAngle += a;
+        if (context != null) {
+            boolean x = Math.abs(vx) > Math.abs(vy);
+            float v = x ? vx : vy;
+            float a = (v < 0 ? -1 : 1) * MAX_ANGLE * Math.max(Math.min((Math.abs(v) - 0.4f * context.getResources().getDisplayMetrics().density) / (4f * context.getResources().getDisplayMetrics().density), 1), 0);
+            if (x) horizontalAngle += a;
+            else verticalAngle += a;
+        }
+        return this;
     }
 
     /**
@@ -51,8 +59,9 @@ public class Param implements Mutex.DataHandler<Param> {
      *
      * @param ms
      * @param lens
+     * @return
      */
-    public void doLens(long ms, Camera.Lens lens) {
+    public Param doLens(long ms, Camera.Lens lens) {
         float ROTATE_POWER = 66f / 1000; //视角转速
         lens.moveBy(movePower * ms, moveAngle);
         float h = ROTATE_POWER * ms;
@@ -74,6 +83,7 @@ public class Param implements Mutex.DataHandler<Param> {
             verticalAngle = (verticalAngle < 0 ? -1 : 1) * tmp;
         }
         lens.rotateBy(h, v);
+        return this;
     }
 
     @Override

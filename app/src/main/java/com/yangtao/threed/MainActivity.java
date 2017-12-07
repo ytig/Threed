@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.yangtao.engine.Camera;
 import com.yangtao.threed.element.Rect;
 import com.yangtao.threed.element.Rects;
 import com.yangtao.threed.engine.BaseView;
 import com.yangtao.threed.engine.Core;
-import com.yangtao.threed.engine.Mutex;
 import com.yangtao.threed.engine.ThreadView;
+import com.yangtao.threed.extend.ControlView;
 import com.yangtao.threed.extend.Param;
 
 public class MainActivity extends Activity {
@@ -33,18 +34,10 @@ public class MainActivity extends Activity {
                 mView.doPause();
             }
         });
-        setContentView(mView);
-        mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mView.setParam(new Mutex.DataHandler<Param>() {
-                    @Override
-                    public void handleData(Param param) {
-                        param.doMove(mView.getContext(), 5, 0);
-                    }
-                });
-            }
-        });
+        FrameLayout content = new FrameLayout(this);
+        content.addView(mView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        content.addView(new ControlView(mView), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        setContentView(content);
     }
 
     @Override
