@@ -3,7 +3,6 @@ package com.yangtao.threed;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import com.yangtao.engine.Camera;
@@ -37,27 +36,28 @@ public class MainActivity extends Activity {
                 param.doLens(ms, lens);
             }
         }.addSurfaces(initScene()), new Param(this));
-        mView.doCreate();
-        mView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(View v) {
-                mView.doResume();
-            }
-
-            @Override
-            public void onViewDetachedFromWindow(View v) {
-                mView.doPause();
-            }
-        });
         FrameLayout content = new FrameLayout(this);
         content.addView(mView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         content.addView(new ControlView(mView), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         setContentView(content);
+        mView.doCreate();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mView.doResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mView.doPause();
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mView.doDestroy();
+        super.onDestroy();
     }
 }
