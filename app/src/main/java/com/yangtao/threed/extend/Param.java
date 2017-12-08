@@ -63,6 +63,7 @@ public class Param implements Mutex.DataHandler<Param> {
      */
     public Param doLens(long ms, Camera.Lens lens) {
         float ROTATE_POWER = 50f / 1000; //视角转速
+        lens.jumpTo(1.8f);
         lens.moveBy(movePower * ms, moveAngle);
         float h = ROTATE_POWER * ms;
         float tmp = Math.abs(horizontalAngle) - h;

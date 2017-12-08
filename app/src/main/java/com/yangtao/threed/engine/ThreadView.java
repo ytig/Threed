@@ -16,7 +16,6 @@ import com.yangtao.engine.Surfaces;
  */
 public class ThreadView<Param> extends BaseView<Param> {
     private static final float EYE_SHOT = 66; //视野
-    private static final float EYE_HIGH = 1.8f; //视高
 
     private Mutex<MyState> mState; //互斥状态
     private Mutex<Bitmap> mBitmap; //互斥位图
@@ -117,7 +116,6 @@ public class ThreadView<Param> extends BaseView<Param> {
 
         public MyCamera(Core<Param> core) {
             super(getContext().getResources().getDisplayMetrics().widthPixels, getContext().getResources().getDisplayMetrics().heightPixels, EYE_SHOT);
-            mLens.jumpTo(EYE_HIGH);
             mCore = core;
             sHandler = new Mutex.DataHandler<MyState>() {
                 @Override

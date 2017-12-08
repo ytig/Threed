@@ -14,7 +14,6 @@ import com.yangtao.engine.Surfaces;
  */
 public class SimpleView<Param> extends BaseView<Param> {
     private static final float EYE_SHOT = 66; //视野
-    private static final float EYE_HIGH = 1.8f; //视高
 
     private int mState; //状态
     private Camera mCamera; //相机
@@ -26,7 +25,6 @@ public class SimpleView<Param> extends BaseView<Param> {
         super(context);
         mState = STATE_TODO;
         mCamera = new Camera(getContext().getResources().getDisplayMetrics().widthPixels, getContext().getResources().getDisplayMetrics().heightPixels, EYE_SHOT);
-        mCamera.mLens.jumpTo(EYE_HIGH);
         mBitmap = Bitmap.createBitmap(mCamera.mWidth, mCamera.mHeight, Bitmap.Config.RGB_565);
         mCore = core;
         mParam = param;
