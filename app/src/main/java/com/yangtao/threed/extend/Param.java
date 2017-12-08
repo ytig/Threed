@@ -74,7 +74,7 @@ public class Param implements Mutex.DataHandler<Param> {
      * @return
      */
     public Param doLens(long ms, Camera.Lens lens) {
-        jumpValue = Math.min(jumpValue + ms / 666f, 1);
+        jumpValue = Math.min(jumpValue + ms / 600f, 1);
         float i = 1 - Math.abs(1 - 2 * jumpValue);
         lens.jumpTo(1.8f + (1 - (1 - i) * (1 - i)) * 1f);
         lens.moveBy(movePower * ms, moveAngle);
