@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends Activity {
-    private static List initScene() {
+    private static List initScene() { //构建场景
         return Arrays.asList(
                 new Floor(15, 1f, Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT, Color.BLACK),
                 new Rects(1f, 1f, 1f).setColor(Color.BLACK, Color.WHITE).setTranslate(0, 0, 0.5f).setRotate(0, 0, 45)
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
             protected void doCompute(long ms, Camera.Lens lens, Param param) {
                 param.doLens(ms, lens);
             }
-        }.addSurfaces(initScene()), new Param());
+        }.addSurfaces(initScene()), new Param(this));
         mView.doCreate();
         mView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override

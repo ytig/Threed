@@ -11,13 +11,16 @@ import com.yangtao.threed.engine.BaseView;
  */
 public class ControlView extends View {
     private BaseView<Param> mView; //渲染视图
-    private Param mParam = new Param(); //控制参数
-    private Pointer mLeft = new Pointer(); //左屏触控
-    private Pointer mRight = new Pointer(); //右屏触控
+    private Param mParam; //控制参数
+    private Pointer mLeft; //左屏触控
+    private Pointer mRight; //右屏触控
 
     public ControlView(BaseView<Param> view) {
         super(view.getContext());
         mView = view;
+        mParam = new Param(getContext());
+        mLeft = new Pointer();
+        mRight = new Pointer();
     }
 
     @Override
@@ -41,7 +44,7 @@ public class ControlView extends View {
                 int index = event.findPointerIndex(mLeft.id);
                 float x = getRawX(event, index);
                 float y = getRawY(event, index);
-                mView.setParam(mParam.doMove(getContext(), x - mLeft.x, y - mLeft.y));
+                mView.setParam(mParam.doMove(x - mLeft.x, y - mLeft.y));
             }
         }
         if (action == MotionEvent.ACTION_UP || masked == MotionEvent.ACTION_POINTER_UP) {
@@ -50,18 +53,24 @@ public class ControlView extends View {
             float y = getRawY(event, event.getActionIndex());
             if (mLeft.id == id) {
                 mLeft.id = -1;
-                mView.setParam(mParam.doMove(getContext(), 0, 0));
+                mView.setParam(mParam.doMove(0, 0));
             }
             if (mRight.id == id) {
                 mRight.id = -1;
                 long dt = AnimationUtils.currentAnimationTimeMillis() - mRight.t;
-                if (dt > 0 && dt < 500)
-                    mView.setParam(mParam.doRotate(getContext(), (x - mRight.x) / dt, (y - mRight.y) / dt));
+                if (dt > 0 && dt < 500) {
+                    float dx = x - mRight.x;
+                    float dy = y - mRight.y;
+                    float limit = 4 * getContext().getResources().getDisplayMetrics().density;
+                    if (Math.abs(dx) < limit && Math.abs(dy) < limit)
+                        mView.setParam(mParam.doJump());
+                    else mView.setParam(mParam.doRotate(dx / dt, dy / dt));
+                }
             }
         }
         if (action == MotionEvent.ACTION_CANCEL) {
             mLeft.id = -1;
-            mView.setParam(mParam.doMove(getContext(), 0, 0));
+            mView.setParam(mParam.doMove(0, 0));
             mRight.id = -1;
         }
         return true;
