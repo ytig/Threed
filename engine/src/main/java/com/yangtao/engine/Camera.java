@@ -227,7 +227,7 @@ public class Camera {
                             ap.set(mLens.remapVector.x + c1, mLens.remapVector.y + c2, mLens.remapVector.z + c3);
                             c5 = ap.getLength();
                             c6 = ab.multiplyBy(ap);
-                            mCanvas[x + y * mWidth] = surface.getTextureColor(c6 / (c4 * c4), (float) (Math.sqrt(c5 * c5 - c6 * c6 / (c4 * c4)) / c4));
+                            mCanvas[x + y * mWidth] = surface.getTextureColor(c6 / (c4 * c4), (float) (Math.sqrt(Math.max(c5 * c5 - c6 * c6 / (c4 * c4), 0)) / c4));
                         }
                     }
                 }
@@ -305,7 +305,7 @@ public class Camera {
                             ap.set(mLens.remapVector.x + c1, mLens.remapVector.y + c2, mLens.remapVector.z + c3);
                             c5 = ap.getLength();
                             c6 = ab.multiplyBy(ap);
-                            mCanvas[x + y * mWidth] = surface.getTextureColor(c6 / (c4 * c4), (float) (Math.sqrt(c5 * c5 - c6 * c6 / (c4 * c4)) / c4));
+                            mCanvas[x + y * mWidth] = surface.getTextureColor(c6 / (c4 * c4), (float) (Math.sqrt(Math.max(c5 * c5 - c6 * c6 / (c4 * c4), 0)) / c4));
                         }
                     }
                 }
@@ -427,7 +427,7 @@ public class Camera {
                             ap.set(mLens.remapVector.x + c1, mLens.remapVector.y + c2, mLens.remapVector.z + c3);
                             c5 = ap.getLength();
                             c6 = ab.multiplyBy(ap);
-                            mCanvas[x + y * mWidth] = surface.getTextureColor(c6 / (c4 * c4), (float) (Math.sqrt(c5 * c5 - c6 * c6 / (c4 * c4)) / c4));
+                            mCanvas[x + y * mWidth] = surface.getTextureColor(c6 / (c4 * c4), (float) (Math.sqrt(Math.max(c5 * c5 - c6 * c6 / (c4 * c4), 0)) / c4));
                         }
                     }
                 }
@@ -544,7 +544,7 @@ public class Camera {
                             ap.set(mLens.remapVector.x + c1, mLens.remapVector.y + c2, mLens.remapVector.z + c3);
                             c5 = ap.getLength();
                             c6 = ab.multiplyBy(ap);
-                            mCanvas[x + y * mWidth] = surface.getTextureColor(c6 / (c4 * c4), (float) (Math.sqrt(c5 * c5 - c6 * c6 / (c4 * c4)) / c4));
+                            mCanvas[x + y * mWidth] = surface.getTextureColor(c6 / (c4 * c4), (float) (Math.sqrt(Math.max(c5 * c5 - c6 * c6 / (c4 * c4), 0)) / c4));
                         }
                     }
                 }
